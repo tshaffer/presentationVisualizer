@@ -20,7 +20,7 @@ Sub Main()
     aa.AddReplace("brightsign_js_objects_enabled",true)
     aa.AddReplace("url","file:///sd:/index.html")
 
-    is = CreateObject("roassociativearray")
+    is = {}
     is.AddReplace("port",3000)
 
     aa.AddReplace("inspector_server",is)
@@ -30,7 +30,7 @@ Sub Main()
     htmlWidget.show()
 
     p = CreateObject("roMessagePort")
-    h.SetPort(p)
+    htmlWidget.SetPort(p)
     while true
       msg = wait(100, p)
     end while

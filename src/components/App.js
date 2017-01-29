@@ -11,9 +11,15 @@ export default class App extends Component {
 
   render() {
 
+    console.log("app.js::render invoked");
+
     return (
       <MuiThemeProvider>
-        <p>Pizza</p>
+        <div>
+          <p className="autorunText">Pizza</p>
+          <p className="autorunText">Line 2</p>
+          <p className="autorunText">Line 3</p>
+        </div>
       </MuiThemeProvider>
     );
   }
