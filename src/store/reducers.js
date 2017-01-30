@@ -1,10 +1,10 @@
 // @flow
 
 import {combineReducers} from 'redux';
-import SignReducer from './sign';
+import PlaceholderReducer from './placeholder';
 
 const rootReducer = combineReducers({
-  sign: SignReducer
+  sign: PlaceholderReducer
 });
 
 export default rootReducer;
