@@ -1,7 +1,7 @@
 {
-  "name": "auto-react",
+  "name": "react-redux-electron-boilerplate",
   "version": "0.0.1",
-  "description": "autorun.js as a react app",
+  "description": "boilerplate for apps using react, redux, and electron",
   "main": "main.js",
   "author": "Ted Shaffer",
   "license": "ISC",

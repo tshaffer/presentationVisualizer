@@ -1,4 +1,4 @@
-console.log("hello autoReact");
+console.log("hello reactReduxElectronBoilerplate");
 const electron = require('electron');
 
 // Module to control application life.
