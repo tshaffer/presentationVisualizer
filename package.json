@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-electron-boilerplate",
+  "name": "presentation_visualizer",
   "version": "0.0.1",
-  "description": "boilerplate for apps using react, redux, and electron",
+  "description": "tool to view a BrightAuthor Connected presentation as a tree",
   "main": "main.js",
   "author": "Ted Shaffer",
   "license": "ISC",
