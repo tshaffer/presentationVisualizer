@@ -1,10 +1,10 @@
 // @flow
 
 import {combineReducers} from 'redux';
-import PlaceholderReducer from './placeholder';
+import { bsDmReducer } from '@brightsign/bsdatamodel';
 
 const rootReducer = combineReducers({
-  sign: PlaceholderReducer
+  bsdm: bsDmReducer,
 });
 
 export default rootReducer;

@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 const {dialog} = require('electron').remote;
@@ -14,7 +15,6 @@ export default class App extends Component {
   }
 
   browseForFile() {
-
     let self = this;
 
     dialog.showOpenDialog({
@@ -23,6 +23,10 @@ export default class App extends Component {
       console.log('selected file: ', filePaths[0]);
       self.filePath.input.value = filePaths[0];
     });
+  }
+
+  openPresentation() {
+    this.props.openPresentation(this.filePath.input.value);
   }
 
   getInputFieldStyle(){
@@ -73,8 +77,17 @@ export default class App extends Component {
             label='Browse'
             onTouchTap={self.browseForFile.bind(self)}
           />
+          <RaisedButton
+            label='Open Presentation'
+            onTouchTap={self.openPresentation.bind(this)}
+          />
         </div>
       </MuiThemeProvider>
     );
   }
 }
+
+App.propTypes = {
+  openPresentation: React.PropTypes.func.isRequired,
+};
+
