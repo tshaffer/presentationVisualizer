@@ -1,9 +1,15 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { openPresentation } from '../store/presentations';
+import { openPresentation } from '../store/presentation';
 
 import App from '../components/App';
+
+function mapStateToProps (state) {
+  return {
+    presentation : state.presentation
+  };
+}
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
@@ -12,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);

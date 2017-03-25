@@ -8,6 +8,7 @@ const decoder = new StringDecoder('utf8');
 const clone = require('clone');
 
 import {
+  dmOpenSign,
   dmGetSignMetaData,
   dmGetZonesForSign,
   dmGetZoneById,
@@ -41,9 +42,22 @@ import {
 } from '@brightsign/bsdatamodel';
 
 
-import {
-  dmOpenSign,
-} from '@brightsign/bsdatamodel';
+// ------------------------------------
+// Constants
+// ------------------------------------
+export const SET_AUTOPLAY = 'SET_AUTOPLAY';
+
+
+// ------------------------------------
+// Actions
+// ------------------------------------
+export function setAutoplay(autoplay : Object){
+
+  return {
+    type: SET_AUTOPLAY,
+    payload: autoplay
+  };
+}
 
 
 // ------------------------------------
@@ -54,12 +68,42 @@ export function openPresentation(path : string) {
     getFile(path).then( (autoPlay) => {
       dispatch(dmOpenSign(autoPlay));
       const state = getState();
-      const autorunAutoplay = generateAutoplay(state.bsdm);
-      debugger;
+      const autoplay = generateAutoplay(state.bsdm);
+      dispatch(setAutoplay(autoplay));
     });
   };
 }
 
+// ------------------------------------
+// Reducer
+// ------------------------------------
+const initialState = {
+  autoplay : {},
+};
+
+export default function(state : Object = initialState, action : Object) {
+
+  switch (action.type) {
+
+    case SET_AUTOPLAY: {
+
+      let newState = {
+        ...state,
+        autoplay: action.payload
+      };
+
+      console.log(newState);
+      return newState;
+    }
+  }
+
+  return state;
+}
+
+
+// ------------------------------------
+// Utilities
+// ------------------------------------
 const getFile = (filePath = '') => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, (err, dataBuffer) => {
@@ -74,10 +118,6 @@ const getFile = (filePath = '') => {
   });
 };
 
-
-// ------------------------------------
-// Utilities
-// ------------------------------------
 function generateAutoplay(bsdm): Object {
 
   let autorunAutoplay = {};
