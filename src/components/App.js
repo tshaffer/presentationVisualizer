@@ -14,12 +14,40 @@ export default class App extends Component {
   }
 
   browseForFile() {
+
+    let self = this;
+
     dialog.showOpenDialog({
       properties: ['openFile']
     }, (filePaths) => {
       console.log('selected file: ', filePaths[0]);
+      self.filePath.input.value = filePaths[0];
     });
   }
+
+  getInputFieldStyle(){
+    return {
+      height: '28px',
+      width: '500px',
+      fontSize: '12px',
+      display: 'inline-block'
+    };
+  }
+
+  getDivStyle() {
+    return {
+      width: '1000px',
+    };
+  }
+
+  getInputStyle(){
+    return {
+      padding: '0 2px 0 2px',
+      top: '-5px',
+      display: 'inline-block'
+    };
+  }
+
 
   render() {
 
@@ -29,13 +57,16 @@ export default class App extends Component {
 
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={this.getDivStyle()}
+        >
           <p>Select Presentation</p>
           <TextField
             id='filePath'
             ref={(c) => {
               this.filePath = c;
             }}
+            style={this.getInputFieldStyle()}
+            inputStyle={this.getInputStyle()}
           />
           <FlatButton
             disableTouchRipple={true}
