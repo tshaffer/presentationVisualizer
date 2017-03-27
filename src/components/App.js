@@ -84,7 +84,7 @@ export default class App extends Component {
         <div>
           <TreeView key={type} nodeLabel={label} defaultCollapsed={false}>
             <TreeView nodeLabel='name' key={this.props.presentation.autoplay.BrightAuthor.meta.name}
-                      defaultCollapsed={false}>
+              defaultCollapsed={false}>
               <div className="info">{this.props.presentation.autoplay.BrightAuthor.meta.name}</div>
             </TreeView>
           </TreeView>
@@ -96,6 +96,43 @@ export default class App extends Component {
         <div>cheese pizza</div>
       );
     }
+  }
+
+  getPresentationR(tree, node) {
+    console.log('entry: ');
+    console.log(tree);
+    console.log(node);
+    for (let key in node) {
+      if (node.hasOwnProperty(key)) {
+        let val = node[key];
+        if (typeof(val) === 'object' && Object.keys(val).length > 0) {
+          let newRoot = {};
+          tree[key] = newRoot;
+          console.log('recurseMe: ', tree);
+          this.getPresentationR(newRoot, val);
+          console.log('return from recursive call');
+        }
+        else {
+          tree[key] = val;
+        }
+      }
+    }
+    console.log('exit: ');
+    console.log(tree);
+    console.log(node);
+  }
+
+  getPresentationH() {
+    if (this.props.presentation.autoplay.BrightAuthor) {
+      debugger;
+      let tree = {};
+      this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
+      console.log(tree);
+      debugger;
+    }
+    return (
+      <div>poo</div>
+    );
   }
 
 // return (
@@ -150,7 +187,7 @@ export default class App extends Component {
             onTouchTap={self.openPresentation.bind(this)}
           />
           <br/>
-          {this.getPresentation()}
+          {this.getPresentationH()}
         </div>
       </MuiThemeProvider>
     );
