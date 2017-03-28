@@ -98,66 +98,73 @@ export default class App extends Component {
     }
   }
 
+  buildTreeViewR(tree, jsx) {
+
+    for (let key in tree) {
+      if (tree.hasOwnProperty(key)) {
+        let val = tree[key];
+        if (typeof(val) === 'object' && Object.keys(val).length > 0) {
+
+          debugger;
+          jsx += (
+            <TreeView key={key} nodeLabel={key} defaultCollapsed={false}>
+              {this.buildTreeView(val, jsx)}
+            </TreeView >
+          );
+        }
+        else {
+          jsx += (
+            <div className='info'>{key}: {val}</div>
+          );
+        }
+      }
+    }
+
+    return jsx;
+
+  }
+
+  buildTreeViewH(tree) {
+    let treeJsx = this.buildTreeViewR(tree, '');
+    let jsx = (
+      <TreeView key={'rootNode'} nodeLabel={'presentation'} defaultCollapsed={false}>
+        {treeJsx}
+      </TreeView>
+    );
+
+    return (
+      {jsx}
+    );
+  }
+
   getPresentationR(tree, node) {
-    console.log('entry: ');
-    console.log(tree);
-    console.log(node);
     for (let key in node) {
       if (node.hasOwnProperty(key)) {
         let val = node[key];
         if (typeof(val) === 'object' && Object.keys(val).length > 0) {
           let newRoot = {};
           tree[key] = newRoot;
-          console.log('recurseMe: ', tree);
           this.getPresentationR(newRoot, val);
-          console.log('return from recursive call');
         }
         else {
           tree[key] = val;
         }
       }
     }
-    console.log('exit: ');
-    console.log(tree);
-    console.log(node);
   }
 
   getPresentationH() {
     if (this.props.presentation.autoplay.BrightAuthor) {
-      debugger;
       let tree = {};
       this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
-      console.log(tree);
-      debugger;
+      return this.buildTreeViewH(tree);
     }
     return (
-      <div>poo</div>
+      <div>
+        <span>flibbet</span>
+      </div>
     );
   }
-
-// return (
-// <div>
-// {dataSource.map((node, i) => {
-//   const type = node.type;
-//   const label = <span className="node">{type}</span>;
-//   return (
-// <TreeView key={type + '|' + i} nodeLabel={label} defaultCollapsed={false}>
-//     {node.people.map(person => {
-//       const label2 = <span className="node">{person.name}</span>;
-//       return (
-//         <TreeView nodeLabel={label2} key={person.name} defaultCollapsed={false}>
-//           <div className="info">age: {person.age}</div>
-//           <div className="info">sex: {person.sex}</div>
-//           <div className="info">role: {person.role}</div>
-//         </TreeView>
-//       );
-//     })}
-// </TreeView>
-// );
-// })}
-// </div>
-// );
-
 
   render() {
 
@@ -165,6 +172,7 @@ export default class App extends Component {
 
     let self = this;
 
+    let presentationTree = this.getPresentationH();
     return (
       <MuiThemeProvider>
         <div style={this.getDivStyle()}>
@@ -187,7 +195,7 @@ export default class App extends Component {
             onTouchTap={self.openPresentation.bind(this)}
           />
           <br/>
-          {this.getPresentationH()}
+          {presentationTree}
         </div>
       </MuiThemeProvider>
     );
