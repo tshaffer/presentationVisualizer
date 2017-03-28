@@ -10,6 +10,8 @@ const {dialog} = require('electron').remote;
 
 import TreeView from 'react-treeview';
 
+let index = 0;
+
 const dataSource = [
   {
     type: 'Employees',
@@ -28,6 +30,25 @@ const dataSource = [
   },
 ];
 
+const signProps = [
+  {
+    propName: 'Color',
+    propValues: [
+      {
+        key: 'red',
+        value: 69
+      },
+      {
+        key: 'green',
+        value: 169
+      },
+      {
+        key: 'blue',
+        value: 96
+      }
+    ]
+  }
+];
 export default class App extends Component {
 
   componentDidMount() {
@@ -73,49 +94,55 @@ export default class App extends Component {
   }
 
 
-  getPresentation() {
+  // getPresentation() {
+  //
+  //   if (this.props.presentation.autoplay.BrightAuthor) {
+  //
+  //     let type = 'meta';
+  //     let label = <span className="node">{type}</span>;
+  //     let label2 = <span className="node">this.props.presentation.autoplay.BrightAuthor.meta.name</span>;
+  //     return (
+  //       <div>
+  //         <TreeView key={type} nodeLabel={label} defaultCollapsed={false}>
+  //           <TreeView nodeLabel='name' key={this.props.presentation.autoplay.BrightAuthor.meta.name}
+  //             defaultCollapsed={false}>
+  //             <div className="info">{this.props.presentation.autoplay.BrightAuthor.meta.name}</div>
+  //           </TreeView>
+  //         </TreeView>
+  //       </div>
+  //     );
+  //   }
+  //   else {
+  //     return (
+  //       <div>cheese pizza</div>
+  //     );
+  //   }
+  // }
 
-    if (this.props.presentation.autoplay.BrightAuthor) {
-
-      let type = 'meta';
-      let label = <span className="node">{type}</span>;
-      let label2 = <span className="node">this.props.presentation.autoplay.BrightAuthor.meta.name</span>;
-      return (
-        <div>
-          <TreeView key={type} nodeLabel={label} defaultCollapsed={false}>
-            <TreeView nodeLabel='name' key={this.props.presentation.autoplay.BrightAuthor.meta.name}
-              defaultCollapsed={false}>
-              <div className="info">{this.props.presentation.autoplay.BrightAuthor.meta.name}</div>
-            </TreeView>
-          </TreeView>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div>cheese pizza</div>
-      );
-    }
-  }
 
   buildTreeViewR(tree, jsx) {
 
     for (let key in tree) {
       if (tree.hasOwnProperty(key)) {
         let val = tree[key];
+
         if (typeof(val) === 'object' && Object.keys(val).length > 0) {
-          console.log('skip object');
+          index++;
+          jsx.push(
+            <TreeView key={index} nodeLabel={key} defaultCollapsed={false}>
+              {this.buildTreeViewR(val, jsx)}
+            </TreeView>
+          );
+          console.log('poo');
           // jsx += (
-          //   <TreeView key={key} nodeLabel={key} defaultCollapsed={false}>
+          //   <TreeView key={index} nodeLabel={key} defaultCollapsed={false}>
           //     {this.buildTreeViewR(val, jsx)}
           //   </TreeView >
           // );
         }
         else {
-          jsx.push(<div className='info' key={key}>{key}: {val}</div>);
-          // jsx += (
-          //   <div className='info'>{key}: {val}</div>
-          // );
+          index++;
+          jsx.push(<div className='info' key={index}>{key}: {val.toString()}</div>);
         }
       }
     }
@@ -124,8 +151,47 @@ export default class App extends Component {
 
   }
 
+  getTreeViewItem0() {
+    return (
+      <TreeView key={'boozle'} nodeLabel={'boozle'} defaultCollapsed={false}>
+        <div>choice1</div>
+        <div>choice2</div>
+      </TreeView>
+    );
+  }
+
+  getTreeViewItem1() {
+    return (
+      <div>
+      {signProps.map( (signProp, i) => {
+        return (
+          <TreeView key={signProp.propName} nodeLabel={signProp.propName} defaultCollapsed={false}>
+            {signProp.propValues.map( (propValue, j) => {
+              return (
+                <div key={j}>{propValue.key}: {propValue.value}</div>
+              )
+            })
+            }
+          </TreeView>
+        );
+      })}
+      </div>
+    );
+  }
+  buildTreeViewPoo(jsx) {
+
+    jsx.push(
+      <TreeView key={'pooNode'} nodeLabel={'floozle'} defaultCollapsed={false}>
+        {this.getTreeViewItem1()}
+      </TreeView>
+    );
+
+    return jsx;
+  }
+
   buildTreeViewH(tree) {
-    let treeJsx = this.buildTreeViewR(tree, []);
+    // let treeJsx = this.buildTreeViewR(tree, []);
+    let treeJsx = this.buildTreeViewPoo([]);
     return (
       <TreeView key={'rootNode'} nodeLabel={'presentation'} defaultCollapsed={false}>
         {treeJsx}
@@ -149,10 +215,36 @@ export default class App extends Component {
     }
   }
 
+  convertTree(treeIn) {
+
+    let treeOut = [];
+
+    let treeItem = {};
+    treeItem.propName = 'Presentation';
+    treeItem.propValues = [];
+
+    for (let key in treeIn) {
+      if (treeIn.hasOwnProperty(key)) {
+        let value = treeIn[key];
+        treeItem.propValues.push( {
+          key,
+          value
+        })
+      }
+    }
+
+    treeOut.push(treeItem);
+
+    return treeOut;
+  }
+
   getPresentationH() {
     if (this.props.presentation.autoplay.BrightAuthor) {
       let tree = {};
       this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
+      const treeA = this.convertTree(tree);
+      console.log(treeA);
+      debugger;
       return this.buildTreeViewH(tree);
     }
     return (
