@@ -104,18 +104,18 @@ export default class App extends Component {
       if (tree.hasOwnProperty(key)) {
         let val = tree[key];
         if (typeof(val) === 'object' && Object.keys(val).length > 0) {
-
-          debugger;
-          jsx += (
-            <TreeView key={key} nodeLabel={key} defaultCollapsed={false}>
-              {this.buildTreeView(val, jsx)}
-            </TreeView >
-          );
+          console.log('skip object');
+          // jsx += (
+          //   <TreeView key={key} nodeLabel={key} defaultCollapsed={false}>
+          //     {this.buildTreeViewR(val, jsx)}
+          //   </TreeView >
+          // );
         }
         else {
-          jsx += (
-            <div className='info'>{key}: {val}</div>
-          );
+          jsx.push(<div className='info' key={key}>{key}: {val}</div>);
+          // jsx += (
+          //   <div className='info'>{key}: {val}</div>
+          // );
         }
       }
     }
@@ -125,15 +125,11 @@ export default class App extends Component {
   }
 
   buildTreeViewH(tree) {
-    let treeJsx = this.buildTreeViewR(tree, '');
-    let jsx = (
+    let treeJsx = this.buildTreeViewR(tree, []);
+    return (
       <TreeView key={'rootNode'} nodeLabel={'presentation'} defaultCollapsed={false}>
         {treeJsx}
       </TreeView>
-    );
-
-    return (
-      {jsx}
     );
   }
 
