@@ -121,7 +121,7 @@ export default class App extends Component {
   // }
 
 
-  buildTreeViewR(tree, jsx) {
+  buildTreeViewRoot(tree, jsx) {
 
     for (let key in tree) {
       if (tree.hasOwnProperty(key)) {
@@ -190,9 +190,40 @@ export default class App extends Component {
     return jsx;
   }
 
+  getTreeView(treeNodes) {
+    return (
+      <div>
+        {treeNodes.map( (treeNode) => {
+          return (
+            <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
+              {treeNode.propValues.map( (propValue, j) => {
+                return (
+                  <div key={j}>{propValue.key}: {propValue.value}</div>
+                );
+              })
+              }
+            </TreeView>
+          );
+        })}
+      </div>
+    );
+  }
+
+  buildTreeViewR(tree, jsx) {
+
+    jsx.push(
+      <TreeView key={'pooNode'} nodeLabel={'floozle'} defaultCollapsed={false}>
+        {this.getTreeView(tree)}
+      </TreeView>
+    );
+
+    return jsx;
+
+  }
+
   buildTreeViewH(tree) {
     // let treeJsx = this.buildTreeViewR(tree, []);
-    let treeJsx = this.buildTreeViewPoo([]);
+    let treeJsx = this.buildTreeViewR(tree, []);
     return (
       <TreeView key={'rootNode'} nodeLabel={'presentation'} defaultCollapsed={false}>
         {treeJsx}
@@ -200,55 +231,10 @@ export default class App extends Component {
     );
   }
 
-  convertTree(treeIn) {
-
-    let treeOut = [];
-
-    let treeItem = {};
-    treeItem.propName = 'Presentation';
-    treeItem.propValues = [];
-
-    for (let key in treeIn) {
-      if (treeIn.hasOwnProperty(key)) {
-        let value = treeIn[key];
-        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          let embeddedTreeItem = {};
-          embeddedTreeItem.propName = key;
-          embeddedTreeItem.propValues = [];
-
-          for (let embeddedKey in value) {
-            if (value.hasOwnProperty(embeddedKey)) {
-              let embeddedValue = treeIn[embeddedKey];
-              embeddedTreeItem.propValues.push( {
-                embeddedKey,
-                embeddedValue
-              });
-            }
-          }
-          treeItem.propValues.push( {
-            key,
-            value: embeddedTreeItem
-          });
-        }
-        else {
-          treeItem.propValues.push( {
-            key,
-            value
-          });
-        }
-      }
-    }
-
-    treeOut.push(treeItem);
-
-    return treeOut;
-  }
-
-
   convertTreeR(nodeName, nodeIn) {
 
     let node = {};
-    node.propName = nodeName; // FIXME
+    node.propName = nodeName;
     node.propValues = [];
 
     for (let key in nodeIn) {
