@@ -194,12 +194,21 @@ export default class App extends Component {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
+
           return (
             <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
               {treeNode.propValues.map( (propValue, j) => {
-                return (
-                  <div key={j}>{propValue.key}: {propValue.value}</div>
-                );
+                const val = propValue.value;
+                if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
+                  return (
+                    <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
+                  );
+                }
+                else {
+                  return (
+                    <div key={j}>{propValue.key}: object</div>
+                  )
+                }
               })
               }
             </TreeView>
@@ -211,9 +220,11 @@ export default class App extends Component {
 
   buildTreeViewR(tree, jsx) {
 
+    let foo = this.getTreeView(tree);
+
     jsx.push(
       <TreeView key={'pooNode'} nodeLabel={'floozle'} defaultCollapsed={false}>
-        {this.getTreeView(tree)}
+        {foo}
       </TreeView>
     );
 
@@ -289,7 +300,7 @@ export default class App extends Component {
       debugger;
       const treeA = this.convertTreeH(tree);
       console.log(treeA);
-      return this.buildTreeViewH(tree);
+      return this.buildTreeViewH(treeA);
     }
     return (
       <div>
