@@ -291,34 +291,34 @@ function getPlaylistStates(mediaStates, eventsById) {
     const contentItemType = mediaState.contentItem.type;
     switch (contentItemType) {
       case ContentItemType.Image:
-      {
-        autorunState.imageItem = {};
-        autorunState.imageItem.stateName = mediaState.name;
-        autorunState.imageItem.fileName = path.basename(mediaState.contentItem.assetId);//TODO path this needs to be resolved outside of publish module
-        autorunState.imageItem.filePath = mediaState.contentItem.assetId;//TODO path this needs to be resolved outside of publish module
+        {
+          autorunState.imageItem = {};
+          autorunState.imageItem.stateName = mediaState.name;
+          autorunState.imageItem.fileName = path.basename(mediaState.contentItem.assetId);//TODO path this needs to be resolved outside of publish module
+          autorunState.imageItem.filePath = mediaState.contentItem.assetId;//TODO path this needs to be resolved outside of publish module
 
-        // TODO - fileIsLocal unused in current autorun - conceivable that it would be used?
-        // autorunState.imageItem.fileIsLocal = true;
+          // TODO - fileIsLocal unused in current autorun - conceivable that it would be used?
+          // autorunState.imageItem.fileIsLocal = true;
 
-        autorunState.imageItem.slideDelayInterval = mediaStateEvent.data.interval;
-        autorunState.imageItem.slideTransition = TransitionTypeName(mediaStateEvent.transitionList[0].type);
-        autorunState.imageItem.transitionDuration = 1000;   // TODO - badm
-        autorunState.imageItem.videoPlayerRequired = false; // TODO - badm
-        autorunState.imageItem.useImageBuffer = false; // TODO - badm
-        break;
-      }
+          autorunState.imageItem.slideDelayInterval = mediaStateEvent.data.interval;
+          autorunState.imageItem.slideTransition = TransitionTypeName(mediaStateEvent.transitionList[0].type);
+          autorunState.imageItem.transitionDuration = 1000;   // TODO - badm
+          autorunState.imageItem.videoPlayerRequired = false; // TODO - badm
+          autorunState.imageItem.useImageBuffer = false; // TODO - badm
+          break;
+        }
       case ContentItemType.Video:
-      {
-        autorunState.videoItem = {};
-        autorunState.videoItem.stateName = mediaState.name;
-        // autorunState.videoItem.fileName = mediaState.name;   // this fileName does not include extension
-        autorunState.videoItem.fileName = path.basename(mediaState.contentItem.assetId);//TODO path this needs to be resolved outside of publish module
-        autorunState.videoItem.filePath = mediaState.contentItem.assetId;//TODO path this needs to be resolved outside of publish module
+        {
+          autorunState.videoItem = {};
+          autorunState.videoItem.stateName = mediaState.name;
+          // autorunState.videoItem.fileName = mediaState.name;   // this fileName does not include extension
+          autorunState.videoItem.fileName = path.basename(mediaState.contentItem.assetId);//TODO path this needs to be resolved outside of publish module
+          autorunState.videoItem.filePath = mediaState.contentItem.assetId;//TODO path this needs to be resolved outside of publish module
 
-        autorunState.videoItem.videoDisplayMode = '2D';
-        autorunState.videoItem.automaticallyLoop = true;
-        break;
-      }
+          autorunState.videoItem.videoDisplayMode = '2D';
+          autorunState.videoItem.automaticallyLoop = true;
+          break;
+        }
       default:
         break;
     }

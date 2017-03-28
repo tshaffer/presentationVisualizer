@@ -53,6 +53,7 @@ export default class App extends Component {
 
   componentDidMount() {
     console.log("app.js::componentDidMount invoked");
+    console.log(dataSource);
   }
 
   browseForFile() {
@@ -163,18 +164,18 @@ export default class App extends Component {
   getTreeViewItem1() {
     return (
       <div>
-      {signProps.map( (signProp, i) => {
-        return (
-          <TreeView key={signProp.propName} nodeLabel={signProp.propName} defaultCollapsed={false}>
-            {signProp.propValues.map( (propValue, j) => {
-              return (
-                <div key={j}>{propValue.key}: {propValue.value}</div>
-              )
-            })
-            }
-          </TreeView>
-        );
-      })}
+        {signProps.map( (signProp) => {
+          return (
+            <TreeView key={signProp.propName} nodeLabel={signProp.propName} defaultCollapsed={false}>
+              {signProp.propValues.map( (propValue, j) => {
+                return (
+                  <div key={j}>{propValue.key}: {propValue.value}</div>
+                );
+              })
+              }
+            </TreeView>
+          );
+        })}
       </div>
     );
   }
@@ -199,6 +200,86 @@ export default class App extends Component {
     );
   }
 
+  convertTree(treeIn) {
+
+    let treeOut = [];
+
+    let treeItem = {};
+    treeItem.propName = 'Presentation';
+    treeItem.propValues = [];
+
+    for (let key in treeIn) {
+      if (treeIn.hasOwnProperty(key)) {
+        let value = treeIn[key];
+        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
+          let embeddedTreeItem = {};
+          embeddedTreeItem.propName = key;
+          embeddedTreeItem.propValues = [];
+
+          for (let embeddedKey in value) {
+            if (value.hasOwnProperty(embeddedKey)) {
+              let embeddedValue = treeIn[embeddedKey];
+              embeddedTreeItem.propValues.push( {
+                embeddedKey,
+                embeddedValue
+              });
+            }
+          }
+          treeItem.propValues.push( {
+            key,
+            value: embeddedTreeItem
+          });
+        }
+        else {
+          treeItem.propValues.push( {
+            key,
+            value
+          });
+        }
+      }
+    }
+
+    treeOut.push(treeItem);
+
+    return treeOut;
+  }
+
+
+  convertTreeR(nodeName, nodeIn) {
+
+    let node = {};
+    node.propName = nodeName; // FIXME
+    node.propValues = [];
+
+    for (let key in nodeIn) {
+      if (nodeIn.hasOwnProperty(key)) {
+        let value = nodeIn[key];
+        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
+          const newNode = this.convertTreeR(key, value);
+          node.propValues.push( {
+            key,
+            value: newNode
+          });
+        }
+        else {
+          node.propValues.push( {
+            key,
+            value
+          });
+        }
+      }
+    }
+
+    return node;
+  }
+
+  convertTreeH(treeIn) {
+    let treeOut = [];
+    const convertedTree = this.convertTreeR('Presentation', treeIn);
+    treeOut.push(convertedTree);
+    return treeOut;
+  }
+
   getPresentationR(tree, node) {
     for (let key in node) {
       if (node.hasOwnProperty(key)) {
@@ -215,36 +296,13 @@ export default class App extends Component {
     }
   }
 
-  convertTree(treeIn) {
-
-    let treeOut = [];
-
-    let treeItem = {};
-    treeItem.propName = 'Presentation';
-    treeItem.propValues = [];
-
-    for (let key in treeIn) {
-      if (treeIn.hasOwnProperty(key)) {
-        let value = treeIn[key];
-        treeItem.propValues.push( {
-          key,
-          value
-        })
-      }
-    }
-
-    treeOut.push(treeItem);
-
-    return treeOut;
-  }
-
   getPresentationH() {
     if (this.props.presentation.autoplay.BrightAuthor) {
       let tree = {};
       this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
-      const treeA = this.convertTree(tree);
-      console.log(treeA);
       debugger;
+      const treeA = this.convertTreeH(tree);
+      console.log(treeA);
       return this.buildTreeViewH(tree);
     }
     return (
