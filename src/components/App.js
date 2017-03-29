@@ -82,15 +82,13 @@ export default class App extends Component {
         );
       }
       else {
-        let embeddederTreeNodes = [];
-        embeddederTreeNodes.push( {
+        embeddedTreeNodes = [];
+        embeddedTreeNodes.push( {
           propName: val.propName,
           propValues: val.propValues
         });
 
-        // const embeddederJsx = this.getEmbeddederJsx(embeddederTreeNodes);
-        const embeddederJsx = this.getEmbeddedJsx(embeddederTreeNodes);
-        return embeddederJsx;
+        return this.getEmbeddedJsx(embeddedTreeNodes);
       }
     });
 
@@ -101,7 +99,7 @@ export default class App extends Component {
     );
   }
 
-  getTreeViewNonRecursive(treeNodes) {
+  getTreeView(treeNodes) {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
@@ -125,42 +123,9 @@ export default class App extends Component {
                     propValues: val.propValues
                   });
 
-                  const embeddedJsx = this.getEmbeddedJsx(embeddedTreeNodes);
-                  return embeddedJsx;
-
-
+                  return this.getEmbeddedJsx(embeddedTreeNodes);
                 }
               })}
-            </TreeView>
-          );
-        })}
-      </div>
-    );
-  }
-  
-  getTreeView(treeNodes) {
-    return (
-      <div>
-        {treeNodes.map( (treeNode) => {
-          return (
-            <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
-              {treeNode.propValues.map( (propValue, j) => {
-                const val = propValue.value;
-                if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
-                  return (
-                    <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
-                  );
-                }
-                else {
-                  let embeddedTreeNodes = [];
-                  embeddedTreeNodes.push( {
-                    propName: val.propName,
-                    propValues: val.propValues
-                  });
-                  return this.getTreeView(embeddedTreeNodes);
-                }
-              })
-              }
             </TreeView>
           );
         })}
@@ -172,7 +137,7 @@ export default class App extends Component {
 
     console.log(tree);
 
-    let treeViewJsx = this.getTreeViewNonRecursive(tree);
+    let treeViewJsx = this.getTreeView(tree);
 
     jsx.push(
       <div key={this.getRandom()}>
