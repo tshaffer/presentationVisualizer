@@ -10,64 +10,10 @@ const {dialog} = require('electron').remote;
 
 import TreeView from 'react-treeview';
 
-const dataSource = [
-  {
-    type: 'Employees',
-    collapsed: false,
-    people: [
-      {name: 'Paul Gordon', age: 25, sex: 'male', role: 'coder', collapsed: false},
-      {name: 'Sarah Lee', age: 23, sex: 'female', role: 'jqueryer', collapsed: false},
-    ],
-  },
-  {
-    type: 'CEO',
-    collapsed: false,
-    people: [
-      {name: 'Drew Anderson', age: 35, sex: 'male', role: 'boss', collapsed: false},
-    ],
-  },
-];
-
-const signProps = [
-  {
-    propName: 'Color',
-    propValues: [
-      {
-        key: 'red',
-        value: 69
-      },
-      {
-        key: 'green',
-        value: 169
-      },
-      {
-        key: 'rainbow',
-        value: {
-          propName: 'Colors',
-          propValues: [
-            {
-              key: 'orange',
-              value: '99'
-            },
-            {
-              key: 'purple',
-              value: '66'
-            }
-          ]
-        }
-      },
-      {
-        key: 'blue',
-        value: 96
-      }
-    ]
-  }
-];
 export default class App extends Component {
 
   componentDidMount() {
     console.log("app.js::componentDidMount invoked");
-    console.log(dataSource);
   }
 
   browseForFile() {
@@ -112,36 +58,6 @@ export default class App extends Component {
       top: '-5px',
       display: 'inline-block'
     };
-  }
-
-
-  getTreeViewItem1() {
-    return (
-      <div>
-        {signProps.map( (signProp) => {
-          return (
-            <TreeView key={signProp.propName} nodeLabel={signProp.propName} defaultCollapsed={false}>
-              {signProp.propValues.map( (propValue, j) => {
-                return (
-                  <div key={j}>{propValue.key}: {propValue.value}</div>
-                );
-              })
-              }
-            </TreeView>
-          );
-        })}
-      </div>
-    );
-  }
-  buildTreeViewPoo(jsx) {
-
-    jsx.push(
-      <TreeView key={'pooNode'} nodeLabel={'floozle'} defaultCollapsed={false}>
-        {this.getTreeViewItem1()}
-      </TreeView>
-    );
-
-    return jsx;
   }
 
   getEmbeddedLevel6Jsx(embeddedTreeNodes) {
@@ -492,7 +408,6 @@ export default class App extends Component {
     console.log(tree);
 
     let treeViewJsx = this.getTreeViewNonRecursive(tree);
-    // let treeViewJsx = this.getTreeViewNonRecursive(signProps);
 
     jsx.push(
       <div key={this.getRandom()}>
