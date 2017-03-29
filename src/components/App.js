@@ -43,6 +43,22 @@ const signProps = [
         value: 169
       },
       {
+        key: 'rainbow',
+        value: {
+          propName: 'Colors',
+          propValues: [
+            {
+              key: 'orange',
+              value: '99'
+            },
+            {
+              key: 'purple',
+              value: '66'
+            }
+          ]
+        }
+      },
+      {
         key: 'blue',
         value: 96
       }
@@ -65,6 +81,12 @@ export default class App extends Component {
       console.log('selected file: ', filePaths[0]);
       self.filePath.input.value = filePaths[0];
     });
+  }
+
+  getRandom() {
+    const r0 = Math.random();
+    const r1 = Math.trunc(r0 * 1000);
+    return r1;
   }
 
   openPresentation() {
@@ -94,72 +116,6 @@ export default class App extends Component {
     };
   }
 
-
-  // getPresentation() {
-  //
-  //   if (this.props.presentation.autoplay.BrightAuthor) {
-  //
-  //     let type = 'meta';
-  //     let label = <span className="node">{type}</span>;
-  //     let label2 = <span className="node">this.props.presentation.autoplay.BrightAuthor.meta.name</span>;
-  //     return (
-  //       <div>
-  //         <TreeView key={type} nodeLabel={label} defaultCollapsed={false}>
-  //           <TreeView nodeLabel='name' key={this.props.presentation.autoplay.BrightAuthor.meta.name}
-  //             defaultCollapsed={false}>
-  //             <div className="info">{this.props.presentation.autoplay.BrightAuthor.meta.name}</div>
-  //           </TreeView>
-  //         </TreeView>
-  //       </div>
-  //     );
-  //   }
-  //   else {
-  //     return (
-  //       <div>cheese pizza</div>
-  //     );
-  //   }
-  // }
-
-
-  buildTreeViewRoot(tree, jsx) {
-
-    for (let key in tree) {
-      if (tree.hasOwnProperty(key)) {
-        let val = tree[key];
-
-        if (typeof(val) === 'object' && Object.keys(val).length > 0) {
-          index++;
-          jsx.push(
-            <TreeView key={index} nodeLabel={key} defaultCollapsed={false}>
-              {this.buildTreeViewR(val, jsx)}
-            </TreeView>
-          );
-          console.log('poo');
-          // jsx += (
-          //   <TreeView key={index} nodeLabel={key} defaultCollapsed={false}>
-          //     {this.buildTreeViewR(val, jsx)}
-          //   </TreeView >
-          // );
-        }
-        else {
-          index++;
-          jsx.push(<div className='info' key={index}>{key}: {val.toString()}</div>);
-        }
-      }
-    }
-
-    return jsx;
-
-  }
-
-  getTreeViewItem0() {
-    return (
-      <TreeView key={'boozle'} nodeLabel={'boozle'} defaultCollapsed={false}>
-        <div>choice1</div>
-        <div>choice2</div>
-      </TreeView>
-    );
-  }
 
   getTreeViewItem1() {
     return (
@@ -194,48 +150,58 @@ export default class App extends Component {
 //   <div key={j}>{propValue.key}: object</div>
 // )
 
+/*
+ let embeddedTreeNodes = [];
+ embeddedTreeNodes.push( {
+ propName: val.propName,
+ propValues: val.propValues
+ });
+
+ {embeddedTreeNodes.map( (embeddedTreeNode) => {
+ return (
+ <TreeView key={this.getRandom()} nodeLabel={embeddedTreeNode.propName} defaultCollapsed={false}>
+ {embeddedTreeNode.propValues.map( (propValue, k) => {
+ const val2 = propValue.value;
+ if (typeof(val2) === 'string' || typeof(val2) === 'number' || typeof(val2) == 'boolean') {
+ return (
+ <div key={this.getRandom()}>{propValue.key}: {propValue.value.toString()}</div>
+ )
+ }
+ else {
+ return (
+ <div key={this.getRandom()}> {propValue.key}: object</div>
+ )
+ }
+ })}
+
+ </TreeView>
+ );
+ })}
+
+ */
+
 
   getTreeViewNonRecursive(treeNodes) {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
           return (
-            <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
+            <TreeView key={this.getRandom()} nodeLabel={treeNode.propName} defaultCollapsed={false}>
               {treeNode.propValues.map( (propValue, j) => {
                 const val = propValue.value;
                 if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
                   return (
-                    <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
-                  )
+                    <div key={this.getRandom()}>{propValue.key}: {propValue.value.toString()}</div>
+                  );
                 }
                 else {
-                  let embeddedTreeNodes = [];
-                  embeddedTreeNodes.push( {
-                    propName: val.propName,
-                    propValues: val.propValues
-                  });
-
-                  {embeddedTreeNodes.map( (embeddedTreeNode) => {
-                    return (
-                      <TreeView key={embeddedTreeNode.propName} nodeLabel={embeddedTreeNode.propName} defaultCollapsed={false}>
-                        {embeddedTreeNode.propValues.map( (propValue, k) => {
-                          const val2 = propValue.value;
-                          if (typeof(val2) === 'string' || typeof(val2) === 'number' || typeof(val2) == 'boolean') {
-                            return (
-                              <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
-                            )
-                          }
-                          else {
-                            return (
-                              <div key={k}> {propValue.key}: object</div>
-                            )
-                          }
-                        })}
-
-                      </TreeView>
-                    );
-                  })}
-
+                  const label = <span className="node">bogus</span>
+                  return (
+                    <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
+                      <div className="info">poo-0</div>
+                      <div className="info">poo-1</div>
+                    </TreeView>
+                  );
                 }
               })}
             </TreeView>
@@ -278,11 +244,12 @@ export default class App extends Component {
 
   buildTreeViewR(tree, jsx) {
 
-    let treeViewJsx = this.getTreeViewNonRecursive(tree);
+    // let treeViewJsx = this.getTreeViewNonRecursive(tree);
+    let treeViewJsx = this.getTreeViewNonRecursive(signProps);
     debugger;
 
     jsx.push(
-      <div>
+      <div key={this.getRandom()}>
         {treeViewJsx}
       </div>
     );
@@ -294,7 +261,7 @@ export default class App extends Component {
   buildTreeViewH(tree) {
     let treeJsx = this.buildTreeViewR(tree, []);
     return (
-      <div>
+      <div key={this.getRandom()}>
         {treeJsx}
       </div>
     );
