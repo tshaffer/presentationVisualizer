@@ -10,8 +10,6 @@ const {dialog} = require('electron').remote;
 
 import TreeView from 'react-treeview';
 
-let index = 0;
-
 const dataSource = [
   {
     type: 'Employees',
@@ -185,17 +183,20 @@ export default class App extends Component {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
+          const label = <span className="node">{treeNode.propName}</span>;
           return (
-            <TreeView key={this.getRandom()} nodeLabel={treeNode.propName} defaultCollapsed={false}>
-              {treeNode.propValues.map( (propValue, j) => {
+            <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
+              {treeNode.propValues.map( (propValue) => {
                 const val = propValue.value;
+                const keyLabel = <span className="info">{propValue.key}</span>;
+                const valueLabel = <span className="info">{propValue.value.toString()}</span>;
                 if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
                   return (
-                    <div key={this.getRandom()}>{propValue.key}: {propValue.value.toString()}</div>
+                    <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
                   );
                 }
                 else {
-                  const label = <span className="node">bogus</span>
+                  const label = <span className="node">bogus</span>;
                   return (
                     <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
                       <div className="info">poo-0</div>
@@ -223,7 +224,7 @@ export default class App extends Component {
                 if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
                   return (
                     <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
-                  )
+                  );
                 }
                 else {
                   let embeddedTreeNodes = [];
@@ -244,9 +245,10 @@ export default class App extends Component {
 
   buildTreeViewR(tree, jsx) {
 
+    console.log(tree);
+
     // let treeViewJsx = this.getTreeViewNonRecursive(tree);
     let treeViewJsx = this.getTreeViewNonRecursive(signProps);
-    debugger;
 
     jsx.push(
       <div key={this.getRandom()}>
