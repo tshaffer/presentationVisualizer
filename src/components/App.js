@@ -195,6 +195,57 @@ export default class App extends Component {
 // )
 
 
+  getTreeViewNonRecursive(treeNodes) {
+    return (
+      <div>
+        {treeNodes.map( (treeNode) => {
+          return (
+            <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
+              {treeNode.propValues.map( (propValue, j) => {
+                const val = propValue.value;
+                if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
+                  return (
+                    <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
+                  )
+                }
+                else {
+                  let embeddedTreeNodes = [];
+                  embeddedTreeNodes.push( {
+                    propName: val.propName,
+                    propValues: val.propValues
+                  });
+
+                  {embeddedTreeNodes.map( (embeddedTreeNode) => {
+                    return (
+                      <TreeView key={embeddedTreeNode.propName} nodeLabel={embeddedTreeNode.propName} defaultCollapsed={false}>
+                        {embeddedTreeNode.propValues.map( (propValue, k) => {
+                          const val2 = propValue.value;
+                          if (typeof(val2) === 'string' || typeof(val2) === 'number' || typeof(val2) == 'boolean') {
+                            return (
+                              <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
+                            )
+                          }
+                          else {
+                            return (
+                              <div key={k}> {propValue.key}: object</div>
+                            )
+                          }
+                        })}
+
+                      </TreeView>
+                    );
+                  })}
+
+                }
+              })}
+            </TreeView>
+          );
+        })}
+      </div>
+    );
+  }
+
+
   getTreeView(treeNodes) {
     return (
       <div>
@@ -227,7 +278,7 @@ export default class App extends Component {
 
   buildTreeViewR(tree, jsx) {
 
-    let treeViewJsx = this.getTreeView(tree);
+    let treeViewJsx = this.getTreeViewNonRecursive(tree);
     debugger;
 
     jsx.push(
