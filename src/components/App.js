@@ -178,6 +178,33 @@ export default class App extends Component {
 
  */
 
+/*
+ const label = <span className="node">bogus</span>;
+ return (
+ <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
+ <div className="info">poo-0</div>
+ <div className="info">poo-1</div>
+ </TreeView>
+ );
+
+ */
+
+
+  getEmbeddedJsx() {
+    // const label = <span className="node">bogus</span>;
+    // return (
+    //   <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
+    //     <div className="info">poo-0</div>
+    //     <div className="info">poo-1</div>
+    //   </TreeView>
+    // );
+    const keyLabel = <span className="info">{'keyPoo'}</span>;
+    const valueLabel = <span className="info">{'valuePoo'}</span>;
+    // <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
+    return (
+      <div key={this.getRandom()}>keyLabel: valueInfo</div>
+    )
+  }
 
   getTreeViewNonRecursive(treeNodes) {
     return (
@@ -196,13 +223,8 @@ export default class App extends Component {
                   );
                 }
                 else {
-                  const label = <span className="node">bogus</span>;
-                  return (
-                    <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
-                      <div className="info">poo-0</div>
-                      <div className="info">poo-1</div>
-                    </TreeView>
-                  );
+                  const embeddedJsx = this.getEmbeddedJsx();
+                  return embeddedJsx;
                 }
               })}
             </TreeView>
