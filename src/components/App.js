@@ -83,7 +83,7 @@ export default class App extends Component {
 
   getRandom() {
     const r0 = Math.random();
-    const r1 = Math.trunc(r0 * 1000);
+    const r1 = Math.trunc(r0 * 100000);
     return r1;
   }
 
@@ -178,17 +178,6 @@ export default class App extends Component {
 
  */
 
-/*
- const label = <span className="node">bogus</span>;
- return (
- <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
- <div className="info">poo-0</div>
- <div className="info">poo-1</div>
- </TreeView>
- );
-
- */
-
 
   getEmbeddedJsx(embeddedTreeNodes) {
 
@@ -197,7 +186,13 @@ export default class App extends Component {
 
     let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
       const label = <span className="info">{propValue.key}</span>;
-      const value = <span className="info">{propValue.value}</span>;
+
+      const val = propValue.value;
+      let value = 'TBD';
+      if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
+        value = <span className="info">{val.toString()}</span>;
+      }
+
       return (
         <div key={this.getRandom()}>{label}: {value}</div>
       );
@@ -282,8 +277,8 @@ export default class App extends Component {
 
     console.log(tree);
 
-    // let treeViewJsx = this.getTreeViewNonRecursive(tree);
-    let treeViewJsx = this.getTreeViewNonRecursive(signProps);
+    let treeViewJsx = this.getTreeViewNonRecursive(tree);
+    // let treeViewJsx = this.getTreeViewNonRecursive(signProps);
 
     jsx.push(
       <div key={this.getRandom()}>
