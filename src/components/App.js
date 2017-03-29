@@ -324,7 +324,8 @@ export default class App extends Component {
           propValues: val.propValues
         });
 
-        const embeddederJsx = this.getEmbeddederJsx(embeddederTreeNodes);
+        // const embeddederJsx = this.getEmbeddederJsx(embeddederTreeNodes);
+        const embeddederJsx = this.getEmbeddedJsx(embeddederTreeNodes);
         return embeddederJsx;
       }
     });
