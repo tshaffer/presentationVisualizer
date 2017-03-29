@@ -144,7 +144,7 @@ export default class App extends Component {
     return jsx;
   }
 
-  getEmbeddederJsx(embeddedTreeNodes) {
+  getEmbeddedestJsx(embeddedTreeNodes) {
 
     const propName = embeddedTreeNodes[0].propName;
     const treeViewLabel = <span className="node">{propName}</span>;
@@ -170,6 +170,48 @@ export default class App extends Component {
         return (
           <div key={this.getRandom()}>{label}: {value}</div>
         );
+      }
+    });
+
+    return (
+      <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
+        {jsx}
+      </TreeView>
+    );
+  }
+
+
+
+  getEmbeddederJsx(embeddedTreeNodes) {
+
+    const propName = embeddedTreeNodes[0].propName;
+    const treeViewLabel = <span className="node">{propName}</span>;
+
+    let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
+      const label = <span className="info">{propValue.key}</span>;
+
+      const val = propValue.value;
+      let value = 'TBD';
+      if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
+        value = <span className="info">{val.toString()}</span>;
+        return (
+          <div key={this.getRandom()}>{label}: {value}</div>
+        );
+      }
+      else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
+        return (
+          <div key={this.getRandom()}>{label}: {'empty'}</div>
+        );
+      }
+      else {
+        let embeddedestTreeNodes = [];
+        embeddedestTreeNodes.push( {
+          propName: val.propName,
+          propValues: val.propValues
+        });
+
+        const embeddedestJsx = this.getEmbeddedestJsx(embeddedestTreeNodes);
+        return embeddedestJsx;
       }
     });
 
