@@ -144,36 +144,21 @@ export default class App extends Component {
     return jsx;
   }
 
-/*
- let embeddedTreeNodes = [];
- embeddedTreeNodes.push( {
- propName: val.propName,
- propValues: val.propValues
- });
+  getEmbeddederJsx(embeddedTreeNodes) {
 
- {embeddedTreeNodes.map( (embeddedTreeNode) => {
- return (
- <TreeView key={this.getRandom()} nodeLabel={embeddedTreeNode.propName} defaultCollapsed={false}>
- {embeddedTreeNode.propValues.map( (propValue, k) => {
- const val2 = propValue.value;
- if (typeof(val2) === 'string' || typeof(val2) === 'number' || typeof(val2) == 'boolean') {
- return (
- <div key={this.getRandom()}>{propValue.key}: {propValue.value.toString()}</div>
- )
- }
- else {
- return (
- <div key={this.getRandom()}> {propValue.key}: object</div>
- )
- }
- })}
+    const headerLabel = <span className="node">{'header'}</span>;
+    const l1 = <span className="info">l1</span>;
+    const l2 = <span className="info">l2</span>;
 
- </TreeView>
- );
- })}
+    let jsx = (
+      <TreeView key={this.getRandom()} nodeLabel={headerLabel} defaultCollapsed={false}>
+        <div>{l1}</div>
+        <div>{l2}</div>
+      </TreeView>
+    );
 
- */
-
+    return jsx;
+  }
 
   getEmbeddedJsx(embeddedTreeNodes) {
 
@@ -192,17 +177,8 @@ export default class App extends Component {
         );
       }
       else {
-        // value = <span className="info">{'TBD'}</span>;
-        const headerLabel = <span className="node">{'header'}</span>;
-        const l1 = <span className="info">l1</span>;
-        const l2 = <span className="info">l2</span>;
-
-        return (
-          <TreeView key={this.getRandom()} nodeLabel={headerLabel} defaultCollapsed={false}>
-            <div>{l1}</div>
-            <div>{l2}</div>
-          </TreeView>
-        );
+        const embeddederJsx = this.getEmbeddederJsx(embeddedTreeNodes);
+        return embeddederJsx;
       }
     });
 
