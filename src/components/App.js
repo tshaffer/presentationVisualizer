@@ -193,21 +193,19 @@ export default class App extends Component {
   getEmbeddedJsx(embeddedTreeNodes) {
 
     const propName = embeddedTreeNodes[0].propName;
-    const propValues = embeddedTreeNodes[0].propValues[0];
-
     const treeViewLabel = <span className="node">{propName}</span>;
 
-    const label = <span className="info">{propValues.key}</span>;
-    const value = <span className="info">{propValues.value}</span>;
-
-    const propValues1 = embeddedTreeNodes[0].propValues[1];
-    const label1 = <span className="info">{propValues1.key}</span>;
-    const value1 = <span className="info">{propValues1.value}</span>;
+    let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
+      const label = <span className="info">{propValue.key}</span>;
+      const value = <span className="info">{propValue.value}</span>;
+      return (
+        <div key={this.getRandom()}>{label}: {value}</div>
+      );
+    });
 
     return (
       <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
-        <div className="info">{label}: {value}</div>
-        <div className="info">{label1}: {value1}</div>
+        {jsx}
       </TreeView>
     );
   }
