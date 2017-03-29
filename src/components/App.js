@@ -194,7 +194,6 @@ export default class App extends Component {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
-
           return (
             <TreeView key={treeNode.propName} nodeLabel={treeNode.propName} defaultCollapsed={false}>
               {treeNode.propValues.map( (propValue, j) => {
@@ -220,12 +219,12 @@ export default class App extends Component {
 
   buildTreeViewR(tree, jsx) {
 
-    let foo = this.getTreeView(tree);
+    let treeViewJsx = this.getTreeView(tree);
 
     jsx.push(
-      <TreeView key={'pooNode'} nodeLabel={'floozle'} defaultCollapsed={false}>
-        {foo}
-      </TreeView>
+      <div>
+        {treeViewJsx}
+      </div>
     );
 
     return jsx;
@@ -233,12 +232,11 @@ export default class App extends Component {
   }
 
   buildTreeViewH(tree) {
-    // let treeJsx = this.buildTreeViewR(tree, []);
     let treeJsx = this.buildTreeViewR(tree, []);
     return (
-      <TreeView key={'rootNode'} nodeLabel={'presentation'} defaultCollapsed={false}>
+      <div>
         {treeJsx}
-      </TreeView>
+      </div>
     );
   }
 
@@ -297,9 +295,7 @@ export default class App extends Component {
     if (this.props.presentation.autoplay.BrightAuthor) {
       let tree = {};
       this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
-      debugger;
       const treeA = this.convertTreeH(tree);
-      console.log(treeA);
       return this.buildTreeViewH(treeA);
     }
     return (
