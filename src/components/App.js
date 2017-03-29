@@ -146,18 +146,38 @@ export default class App extends Component {
 
   getEmbeddederJsx(embeddedTreeNodes) {
 
-    const headerLabel = <span className="node">{'header'}</span>;
-    const l1 = <span className="info">l1</span>;
-    const l2 = <span className="info">l2</span>;
+    const propName = embeddedTreeNodes[0].propName;
+    const treeViewLabel = <span className="node">{propName}</span>;
 
-    let jsx = (
-      <TreeView key={this.getRandom()} nodeLabel={headerLabel} defaultCollapsed={false}>
-        <div>{l1}</div>
-        <div>{l2}</div>
+    let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
+      const label = <span className="info">{propValue.key}</span>;
+
+      const val = propValue.value;
+      let value = 'TBD';
+      if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
+        value = <span className="info">{val.toString()}</span>;
+        return (
+          <div key={this.getRandom()}>{label}: {value}</div>
+        );
+      }
+      else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
+        return (
+          <div key={this.getRandom()}>{label}: {'empty'}</div>
+        );
+      }
+      else {
+        value = <span className="info">{'deeplyEmbedded'}</span>;
+        return (
+          <div key={this.getRandom()}>{label}: {value}</div>
+        );
+      }
+    });
+
+    return (
+      <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
+        {jsx}
       </TreeView>
     );
-
-    return jsx;
   }
 
   getEmbeddedJsx(embeddedTreeNodes) {
@@ -176,8 +196,19 @@ export default class App extends Component {
           <div key={this.getRandom()}>{label}: {value}</div>
         );
       }
+      else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
+        return (
+          <div key={this.getRandom()}>{label}: {'empty'}</div>
+        );
+      }
       else {
-        const embeddederJsx = this.getEmbeddederJsx(embeddedTreeNodes);
+        let embeddederTreeNodes = [];
+        embeddederTreeNodes.push( {
+          propName: val.propName,
+          propValues: val.propValues
+        });
+
+        const embeddederJsx = this.getEmbeddederJsx(embeddederTreeNodes);
         return embeddederJsx;
       }
     });
