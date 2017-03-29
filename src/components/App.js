@@ -144,10 +144,6 @@ export default class App extends Component {
     return jsx;
   }
 
-// return (
-//   <div key={j}>{propValue.key}: object</div>
-// )
-
 /*
  let embeddedTreeNodes = [];
  embeddedTreeNodes.push( {
@@ -191,11 +187,23 @@ export default class App extends Component {
       let value = 'TBD';
       if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
         value = <span className="info">{val.toString()}</span>;
+        return (
+          <div key={this.getRandom()}>{label}: {value}</div>
+        );
       }
+      else {
+        // value = <span className="info">{'TBD'}</span>;
+        const headerLabel = <span className="node">{'header'}</span>;
+        const l1 = <span className="info">l1</span>;
+        const l2 = <span className="info">l2</span>;
 
-      return (
-        <div key={this.getRandom()}>{label}: {value}</div>
-      );
+        return (
+          <TreeView key={this.getRandom()} nodeLabel={headerLabel} defaultCollapsed={false}>
+            <div>{l1}</div>
+            <div>{l2}</div>
+          </TreeView>
+        );
+      }
     });
 
     return (
