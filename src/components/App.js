@@ -191,19 +191,13 @@ export default class App extends Component {
 
 
   getEmbeddedJsx() {
-    // const label = <span className="node">bogus</span>;
-    // return (
-    //   <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
-    //     <div className="info">poo-0</div>
-    //     <div className="info">poo-1</div>
-    //   </TreeView>
-    // );
-    const keyLabel = <span className="info">{'keyPoo'}</span>;
-    const valueLabel = <span className="info">{'valuePoo'}</span>;
-    // <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
+    const label = <span className="node">bogus</span>;
     return (
-      <div key={this.getRandom()}>keyLabel: valueInfo</div>
-    )
+      <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
+        <div className="info">poo-0</div>
+        <div className="info">poo-1</div>
+      </TreeView>
+    );
   }
 
   getTreeViewNonRecursive(treeNodes) {
