@@ -190,6 +190,11 @@ export default class App extends Component {
     return jsx;
   }
 
+// return (
+//   <div key={j}>{propValue.key}: object</div>
+// )
+
+
   getTreeView(treeNodes) {
     return (
       <div>
@@ -201,12 +206,15 @@ export default class App extends Component {
                 if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
                   return (
                     <div key={j}>{propValue.key}: {propValue.value.toString()}</div>
-                  );
+                  )
                 }
                 else {
-                  return (
-                    <div key={j}>{propValue.key}: object</div>
-                  )
+                  let embeddedTreeNodes = [];
+                  embeddedTreeNodes.push( {
+                    propName: val.propName,
+                    propValues: val.propValues
+                  });
+                  return this.getTreeView(embeddedTreeNodes);
                 }
               })
               }
@@ -220,6 +228,7 @@ export default class App extends Component {
   buildTreeViewR(tree, jsx) {
 
     let treeViewJsx = this.getTreeView(tree);
+    debugger;
 
     jsx.push(
       <div>
