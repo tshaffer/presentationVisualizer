@@ -88,32 +88,6 @@ export default class App extends Component {
     }
   }
 
-  /*
-   const label = <span className="info">{propValue.key}</span>;
-
-   const val = propValue.value;
-   if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
-   let value = <span className="info">{val.toString()}</span>;
-   return (
-   <div key={this.getRandom()}>{label}: {value}</div>
-   );
-   }
-   else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
-   return (
-   <div key={this.getRandom()}>{label}: {'empty'}</div>
-   );
-   }
-   else {
-   embeddedTreeNodes = [];
-   embeddedTreeNodes.push( {
-   propName: val.propName,
-   propValues: val.propValues
-   });
-
-   return this.getEmbeddedJsx(embeddedTreeNodes);
-   }
-   */
-
   getEmbeddedJsx(embeddedTreeNodes) {
 
     const propName = embeddedTreeNodes[0].propName;
@@ -135,9 +109,10 @@ export default class App extends Component {
       <div>
         {treeNodes.map( (treeNode) => {
           const label = <span className="node">{treeNode.propName}</span>;
+          const allPropValues = treeNode.propValues;
           return (
             <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
-              {treeNode.propValues.map( (propValue) => {
+              {allPropValues.map( (propValue) => {
                 return this.renderPropValue(propValue);
               })}
             </TreeView>
@@ -147,28 +122,6 @@ export default class App extends Component {
     );
   }
 
-  /*
-   const val = propValue.value;
-   const keyLabel = <span className="info">{propValue.key}</span>;
-   const valueLabel = <span className="info">{propValue.value.toString()}</span>;
-   if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
-   return (
-   <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
-   );
-   }
-   else {
-
-   let embeddedTreeNodes = [];
-   embeddedTreeNodes.push( {
-   propName: val.propName,
-   propValues: val.propValues
-   });
-
-   return this.getEmbeddedJsx(embeddedTreeNodes);
-   }
-
-   */
-
   buildTreeView(tree) {
     return (
       <div key={this.getRandom()}>
@@ -176,7 +129,6 @@ export default class App extends Component {
       </div>
     );
   }
-
 
   convertTreeR(nodeName, nodeIn) {
 
