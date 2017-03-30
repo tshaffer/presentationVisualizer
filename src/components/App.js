@@ -138,24 +138,7 @@ export default class App extends Component {
           return (
             <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
               {treeNode.propValues.map( (propValue) => {
-                const val = propValue.value;
-                const keyLabel = <span className="info">{propValue.key}</span>;
-                const valueLabel = <span className="info">{propValue.value.toString()}</span>;
-                if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
-                  return (
-                    <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
-                  );
-                }
-                else {
-
-                  let embeddedTreeNodes = [];
-                  embeddedTreeNodes.push( {
-                    propName: val.propName,
-                    propValues: val.propValues
-                  });
-
-                  return this.getEmbeddedJsx(embeddedTreeNodes);
-                }
+                return this.renderPropValue(propValue);
               })}
             </TreeView>
           );
@@ -164,6 +147,27 @@ export default class App extends Component {
     );
   }
 
+  /*
+   const val = propValue.value;
+   const keyLabel = <span className="info">{propValue.key}</span>;
+   const valueLabel = <span className="info">{propValue.value.toString()}</span>;
+   if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) == 'boolean') {
+   return (
+   <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
+   );
+   }
+   else {
+
+   let embeddedTreeNodes = [];
+   embeddedTreeNodes.push( {
+   propName: val.propName,
+   propValues: val.propValues
+   });
+
+   return this.getEmbeddedJsx(embeddedTreeNodes);
+   }
+
+   */
 
   buildTreeView(tree) {
     return (
