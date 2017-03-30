@@ -60,36 +60,67 @@ export default class App extends Component {
     };
   }
 
+  renderPropValue(propValue) {
+
+    const keyLabel = <span className="info">{propValue.key}</span>;
+
+    const value = propValue.value;
+
+    if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
+      const valueLabel = <span className="info">{value.toString()}</span>;
+      return (
+        <div key={this.getRandom()}>{keyLabel}: {valueLabel}</div>
+      );
+    }
+    else if (typeof(value) === 'object' && (value instanceof Array) && (value.length === 0)) {
+      return (
+        <div key={this.getRandom()}>{keyLabel}: {'empty'}</div>
+      );
+    }
+    else {
+      let embeddedTreeNodes = [];
+      embeddedTreeNodes.push( {
+        propName: value.propName,
+        propValues: value.propValues
+      });
+
+      return this.getEmbeddedJsx(embeddedTreeNodes);
+    }
+  }
+
+  /*
+   const label = <span className="info">{propValue.key}</span>;
+
+   const val = propValue.value;
+   if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
+   let value = <span className="info">{val.toString()}</span>;
+   return (
+   <div key={this.getRandom()}>{label}: {value}</div>
+   );
+   }
+   else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
+   return (
+   <div key={this.getRandom()}>{label}: {'empty'}</div>
+   );
+   }
+   else {
+   embeddedTreeNodes = [];
+   embeddedTreeNodes.push( {
+   propName: val.propName,
+   propValues: val.propValues
+   });
+
+   return this.getEmbeddedJsx(embeddedTreeNodes);
+   }
+   */
+
   getEmbeddedJsx(embeddedTreeNodes) {
 
     const propName = embeddedTreeNodes[0].propName;
     const treeViewLabel = <span className="node">{propName}</span>;
 
     let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
-      const label = <span className="info">{propValue.key}</span>;
-
-      const val = propValue.value;
-      let value = 'TBD';
-      if (typeof(val) === 'string' || typeof(val) === 'number' || typeof(val) === 'boolean') {
-        value = <span className="info">{val.toString()}</span>;
-        return (
-          <div key={this.getRandom()}>{label}: {value}</div>
-        );
-      }
-      else if (typeof(val) === 'object' && (val instanceof Array) && (val.length === 0)) {
-        return (
-          <div key={this.getRandom()}>{label}: {'empty'}</div>
-        );
-      }
-      else {
-        embeddedTreeNodes = [];
-        embeddedTreeNodes.push( {
-          propName: val.propName,
-          propValues: val.propValues
-        });
-
-        return this.getEmbeddedJsx(embeddedTreeNodes);
-      }
+      return this.renderPropValue(propValue);
     });
 
     return (
