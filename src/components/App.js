@@ -131,7 +131,7 @@ export default class App extends Component {
     );
   }
 
-  convertTreeR(nodeName, nodeIn) {
+  recursePresentationNodes(nodeName, nodeIn) {
 
     let node = {};
     node.propName = nodeName;
@@ -141,7 +141,7 @@ export default class App extends Component {
       if (nodeIn.hasOwnProperty(key)) {
         let value = nodeIn[key];
         if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          const newNode = this.convertTreeR(key, value);
+          const newNode = this.recursePresentationNodes(key, value);
           node.propValues.push( {
             key,
             value: newNode
@@ -159,21 +159,14 @@ export default class App extends Component {
     return node;
   }
 
-  convertTreeH(treeIn) {
-    let treeOut = [];
-    const convertedTree = this.convertTreeR('Presentation', treeIn);
-    treeOut.push(convertedTree);
-    return treeOut;
-  }
-
-  getPresentationR(tree, node) {
+  buildPresentationTree(tree, node) {
     for (let key in node) {
       if (node.hasOwnProperty(key)) {
         let val = node[key];
         if (typeof(val) === 'object' && Object.keys(val).length > 0) {
           let newRoot = {};
           tree[key] = newRoot;
-          this.getPresentationR(newRoot, val);
+          this.buildPresentationTree(newRoot, val);
         }
         else {
           tree[key] = val;
@@ -182,12 +175,12 @@ export default class App extends Component {
     }
   }
 
-  getPresentationH() {
+  renderPresentation() {
     if (this.props.presentation.autoplay.BrightAuthor) {
       let tree = {};
-      this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
-      const treeA = this.convertTreeH(tree);
-      return this.buildTreeView(treeA);
+      this.buildPresentationTree(tree, this.props.presentation.autoplay.BrightAuthor);
+      const treeViewTree = [this.recursePresentationNodes('Presentation', tree)];
+      return this.buildTreeView(treeViewTree);
     }
     return (
       null
@@ -196,11 +189,8 @@ export default class App extends Component {
 
   render() {
 
-    console.log("app.js::render invoked");
-
     let self = this;
 
-    let presentationTree = this.getPresentationH();
     return (
       <MuiThemeProvider>
         <div style={this.getDivStyle()}>
@@ -223,7 +213,7 @@ export default class App extends Component {
             onTouchTap={self.openPresentation.bind(this)}
           />
           <br/>
-          {presentationTree}
+          {this.renderPresentation()}
         </div>
       </MuiThemeProvider>
     );
