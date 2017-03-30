@@ -88,12 +88,7 @@ export default class App extends Component {
     }
   }
 
-  getEmbeddedJsx(embeddedTreeNodes) {
-
-    const propName = embeddedTreeNodes[0].propName;
-    const treeViewLabel = <span className="node">{propName}</span>;
-
-    const allPropValues = embeddedTreeNodes[0].propValues;
+  getTreeViewItem(treeViewLabel, allPropValues) {
     return (
       <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
         {allPropValues.map( (propValue) => {
@@ -103,18 +98,25 @@ export default class App extends Component {
     );
   }
 
+  getEmbeddedJsx(embeddedTreeNodes) {
+
+    const propName = embeddedTreeNodes[0].propName;
+    const treeViewLabel = <span className="node">{propName}</span>;
+
+    return (
+      this.getTreeViewItem(treeViewLabel, embeddedTreeNodes[0].propValues)
+    );
+  }
+
   getTreeView(treeNodes) {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
-          const label = <span className="node">{treeNode.propName}</span>;
           const allPropValues = treeNode.propValues;
+          const label = <span className="node">{treeNode.propName}</span>;
+
           return (
-            <TreeView key={this.getRandom()} nodeLabel={label} defaultCollapsed={false}>
-              {allPropValues.map( (propValue) => {
-                return this.renderPropValue(propValue);
-              })}
-            </TreeView>
+            this.getTreeViewItem(label, allPropValues)
           );
         })}
       </div>
