@@ -190,9 +190,7 @@ export default class App extends Component {
       return this.buildTreeView(treeA);
     }
     return (
-      <div>
-        <span>flibbet</span>
-      </div>
+      null
     );
   }
 
