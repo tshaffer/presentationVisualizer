@@ -134,13 +134,10 @@ export default class App extends Component {
   }
 
 
-  buildTreeViewH(tree) {
-
-    const treeViewJsx = this.getTreeView(tree);
-
+  buildTreeView(tree) {
     return (
       <div key={this.getRandom()}>
-        {treeViewJsx}
+        {this.getTreeView(tree)}
       </div>
     );
   }
@@ -202,7 +199,7 @@ export default class App extends Component {
       let tree = {};
       this.getPresentationR(tree, this.props.presentation.autoplay.BrightAuthor);
       const treeA = this.convertTreeH(tree);
-      return this.buildTreeViewH(treeA);
+      return this.buildTreeView(treeA);
     }
     return (
       <div>
