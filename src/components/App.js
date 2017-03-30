@@ -133,30 +133,18 @@ export default class App extends Component {
     );
   }
 
-  buildTreeViewR(tree, jsx) {
 
-    console.log(tree);
+  buildTreeViewH(tree) {
 
-    let treeViewJsx = this.getTreeView(tree);
+    const treeViewJsx = this.getTreeView(tree);
 
-    jsx.push(
+    return (
       <div key={this.getRandom()}>
         {treeViewJsx}
       </div>
     );
-
-    return jsx;
-
   }
 
-  buildTreeViewH(tree) {
-    let treeJsx = this.buildTreeViewR(tree, []);
-    return (
-      <div key={this.getRandom()}>
-        {treeJsx}
-      </div>
-    );
-  }
 
   convertTreeR(nodeName, nodeIn) {
 
