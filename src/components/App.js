@@ -93,13 +93,12 @@ export default class App extends Component {
     const propName = embeddedTreeNodes[0].propName;
     const treeViewLabel = <span className="node">{propName}</span>;
 
-    let jsx = embeddedTreeNodes[0].propValues.map( (propValue) => {
-      return this.renderPropValue(propValue);
-    });
-
+    const allPropValues = embeddedTreeNodes[0].propValues;
     return (
       <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
-        {jsx}
+        {allPropValues.map( (propValue) => {
+          return this.renderPropValue(propValue);
+        })}
       </TreeView>
     );
   }
