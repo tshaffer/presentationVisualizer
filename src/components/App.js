@@ -62,9 +62,9 @@ export default class App extends Component {
 
   renderPropValue(propValue) {
 
-    const keyLabel = <span className="info">{propValue.key}</span>;
+    const keyLabel = <span className="info">{propValue.propName}</span>;
 
-    const value = propValue.value;
+    const value = propValue.propValues[0];
 
     if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
       const valueLabel = <span className="info">{value.toString()}</span>;
@@ -78,13 +78,7 @@ export default class App extends Component {
       );
     }
     else {
-      let embeddedTreeNodes = [];
-      embeddedTreeNodes.push( {
-        propName: value.propName,
-        propValues: value.propValues
-      });
-
-      return this.getEmbeddedJsx(embeddedTreeNodes);
+      return this.getEmbeddedJsx([value]);
     }
   }
 
@@ -131,7 +125,7 @@ export default class App extends Component {
     );
   }
 
-  buildTree(nodeName, nodeIn) {
+  buildTreeClassic(nodeName, nodeIn) {
 
     let node = {};
     node.propName = nodeName;
@@ -152,6 +146,40 @@ export default class App extends Component {
             key,
             value
           });
+        }
+      }
+    }
+
+    return node;
+  }
+
+  buildTree(nodeName, nodeIn) {
+
+    let node = {};
+    node.propName = nodeName;
+    node.propValues = [];
+
+    for (let key in nodeIn) {
+      if (nodeIn.hasOwnProperty(key)) {
+        let value = nodeIn[key];
+        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
+          const newNode = this.buildTree(key, value);
+
+          let nodeOut = {};
+          nodeOut.propName = key;
+          nodeOut.propValues = [newNode];
+          node.propValues.push(nodeOut);
+        }
+        else {
+
+          let nodeOut = {};
+          nodeOut.propName = key;
+          nodeOut.propValues = [value];
+          node.propValues.push(nodeOut);
+          // node.propValues.push( {
+          //   key,
+          //   value
+          // });
         }
       }
     }
