@@ -131,6 +131,35 @@ export default class App extends Component {
     );
   }
 
+  buildTree(nodeName, nodeIn) {
+
+    let node = {};
+    node.propName = nodeName;
+    node.propValues = [];
+
+    for (let key in nodeIn) {
+      if (nodeIn.hasOwnProperty(key)) {
+        let value = nodeIn[key];
+        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
+          console.log('recurse buildTree with: ', key, ' ', value);
+          const newNode = this.buildTree(key, value);
+          node.propValues.push( {
+            key,
+            value: newNode
+          });
+        }
+        else {
+          node.propValues.push( {
+            key,
+            value
+          });
+        }
+      }
+    }
+
+    return node;
+  }
+
   recursePresentationNodes(nodeName, nodeIn) {
 
     let node = {};
@@ -177,9 +206,13 @@ export default class App extends Component {
 
   renderPresentation() {
     if (this.props.presentation.autoplay.BrightAuthor) {
+
+      const tViewTree = [this.buildTree('Presentation', this.props.presentation.autoplay.BrightAuthor)];
+
       let tree = {};
       this.buildPresentationTree(tree, this.props.presentation.autoplay.BrightAuthor);
       const treeViewTree = [this.recursePresentationNodes('Presentation', tree)];
+      debugger;
       return this.buildTreeView(treeViewTree);
     }
     return (
