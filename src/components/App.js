@@ -141,7 +141,6 @@ export default class App extends Component {
       if (nodeIn.hasOwnProperty(key)) {
         let value = nodeIn[key];
         if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          console.log('recurse buildTree with: ', key, ' ', value);
           const newNode = this.buildTree(key, value);
           node.propValues.push( {
             key,
@@ -207,12 +206,11 @@ export default class App extends Component {
   renderPresentation() {
     if (this.props.presentation.autoplay.BrightAuthor) {
 
-      const tViewTree = [this.buildTree('Presentation', this.props.presentation.autoplay.BrightAuthor)];
+      const treeViewTree = [this.buildTree('Presentation', this.props.presentation.autoplay.BrightAuthor)];
 
-      let tree = {};
-      this.buildPresentationTree(tree, this.props.presentation.autoplay.BrightAuthor);
-      const treeViewTree = [this.recursePresentationNodes('Presentation', tree)];
-      debugger;
+      // let tree = {};
+      // this.buildPresentationTree(tree, this.props.presentation.autoplay.BrightAuthor);
+      // const treeViewTree = [this.recursePresentationNodes('Presentation', tree)];
       return this.buildTreeView(treeViewTree);
     }
     return (
