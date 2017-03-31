@@ -78,7 +78,7 @@ export default class App extends Component {
       );
     }
     else {
-      return this.getEmbeddedJsx([value]);
+      return this.getEmbeddedJsx(value);
     }
   }
 
@@ -92,13 +92,13 @@ export default class App extends Component {
     );
   }
 
-  getEmbeddedJsx(embeddedTreeNodes) {
+  getEmbeddedJsx(embeddedTreeNode) {
 
-    const propName = embeddedTreeNodes[0].propName;
+    const propName = embeddedTreeNode.propName;
     const treeViewLabel = <span className="node">{propName}</span>;
 
     return (
-      this.getTreeViewItem(treeViewLabel, embeddedTreeNodes[0].propValues)
+      this.getTreeViewItem(treeViewLabel, embeddedTreeNode.propValues)
     );
   }
 
@@ -125,33 +125,6 @@ export default class App extends Component {
     );
   }
 
-  buildTreeClassic(nodeName, nodeIn) {
-
-    let node = {};
-    node.propName = nodeName;
-    node.propValues = [];
-
-    for (let key in nodeIn) {
-      if (nodeIn.hasOwnProperty(key)) {
-        let value = nodeIn[key];
-        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          const newNode = this.buildTree(key, value);
-          node.propValues.push( {
-            key,
-            value: newNode
-          });
-        }
-        else {
-          node.propValues.push( {
-            key,
-            value
-          });
-        }
-      }
-    }
-
-    return node;
-  }
 
   buildTree(nodeName, nodeIn) {
 
@@ -162,25 +135,16 @@ export default class App extends Component {
     for (let key in nodeIn) {
       if (nodeIn.hasOwnProperty(key)) {
         let value = nodeIn[key];
+
+        let nodeOut = {};
+        nodeOut.propName = key;
+
         if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          const newNode = this.buildTree(key, value);
-
-          let nodeOut = {};
-          nodeOut.propName = key;
-          nodeOut.propValues = [newNode];
-          node.propValues.push(nodeOut);
-        }
-        else {
-
-          let nodeOut = {};
-          nodeOut.propName = key;
+          value = this.buildTree(key, value);
           nodeOut.propValues = [value];
-          node.propValues.push(nodeOut);
-          // node.propValues.push( {
-          //   key,
-          //   value
-          // });
         }
+        nodeOut.propValues = [value];
+        node.propValues.push(nodeOut);
       }
     }
 
