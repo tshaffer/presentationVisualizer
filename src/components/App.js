@@ -159,58 +159,11 @@ export default class App extends Component {
     return node;
   }
 
-  recursePresentationNodes(nodeName, nodeIn) {
-
-    let node = {};
-    node.propName = nodeName;
-    node.propValues = [];
-
-    for (let key in nodeIn) {
-      if (nodeIn.hasOwnProperty(key)) {
-        let value = nodeIn[key];
-        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
-          const newNode = this.recursePresentationNodes(key, value);
-          node.propValues.push( {
-            key,
-            value: newNode
-          });
-        }
-        else {
-          node.propValues.push( {
-            key,
-            value
-          });
-        }
-      }
-    }
-
-    return node;
-  }
-
-  buildPresentationTree(tree, node) {
-    for (let key in node) {
-      if (node.hasOwnProperty(key)) {
-        let val = node[key];
-        if (typeof(val) === 'object' && Object.keys(val).length > 0) {
-          let newRoot = {};
-          tree[key] = newRoot;
-          this.buildPresentationTree(newRoot, val);
-        }
-        else {
-          tree[key] = val;
-        }
-      }
-    }
-  }
 
   renderPresentation() {
     if (this.props.presentation.autoplay.BrightAuthor) {
 
       const treeViewTree = [this.buildTree('Presentation', this.props.presentation.autoplay.BrightAuthor)];
-
-      // let tree = {};
-      // this.buildPresentationTree(tree, this.props.presentation.autoplay.BrightAuthor);
-      // const treeViewTree = [this.recursePresentationNodes('Presentation', tree)];
       return this.buildTreeView(treeViewTree);
     }
     return (
