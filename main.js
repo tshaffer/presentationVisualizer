@@ -1,4 +1,4 @@
-console.log("hello reactReduxElectronBoilerplate");
+console.log("hello Presentation Visualizer");
 const electron = require('electron');
 
 // Module to control application life.
