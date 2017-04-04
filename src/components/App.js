@@ -64,6 +64,8 @@ export default class App extends Component {
     console.log('handleClick invoked with parameters: ', propName, ' ', propValue);
   }
 
+// <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>{keyLabel}: {valueLabel}</div>
+
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -75,7 +77,10 @@ export default class App extends Component {
     if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
       const valueLabel = <span className="info">{value.toString()}</span>;
       return (
-        <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>{keyLabel}: {valueLabel}</div>
+        <div key={this.getRandom()}>
+          {keyLabel}
+          <input type="text" defaultValue={value.toString()}/>
+          </div>
       );
     }
     else if (typeof(value) === 'object' && (value instanceof Array) && (value.length === 0)) {
