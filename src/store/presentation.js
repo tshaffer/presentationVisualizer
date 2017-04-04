@@ -41,7 +41,8 @@ import {
   LiveVideoStandardTypeName
 } from '@brightsign/bsdatamodel';
 
-
+import PresentationItem from '../entities/presentationItem';
+import { ItemDescriptor } from '../entities/presentationItem';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -160,6 +161,10 @@ function getSignMetadata(bsdm) {
   const bsdmSignMetadata = dmGetSignMetaData(bsdm);
 
   let appSignMetadata = clone(bsdmSignMetadata);
+
+  debugger;
+  const videoModeItemDescriptor = new ItemDescriptor('textField', []);
+  const videoModeItem = new PresentationItem('videoMode', 0, videoModeItemDescriptor);
 
   appSignMetadata.videoMode = VideoModeName(bsdmSignMetadata.videoMode);
   appSignMetadata.model = PlayerModelName(bsdmSignMetadata.model);

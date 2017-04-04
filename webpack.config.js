@@ -23,11 +23,10 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
-            presets: ['react', 'es2015']
-        }
+        loaders: [
+          'babel?presets[]=react,presets[]=es2015,presets[]=stage-1'
+        ]
       },
       {
         test: /\.json?$/,
