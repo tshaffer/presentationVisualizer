@@ -37,6 +37,12 @@ export default class App extends Component {
     this.props.openPresentation(this.filePath.input.value);
   }
 
+  getDivStyle() {
+    return {
+      width: '1000px',
+    };
+  }
+
   getInputFieldStyle(){
     return {
       height: '28px',
@@ -46,16 +52,26 @@ export default class App extends Component {
     };
   }
 
-  getDivStyle() {
-    return {
-      width: '1000px',
-    };
-  }
-
   getInputStyle(){
     return {
       padding: '0 2px 0 2px',
       top: '-5px',
+      display: 'inline-block'
+    };
+  }
+
+  getTextEditInputFieldStyle() {
+    return {
+      marginLeft: '8px',
+      height: '28px',
+      width: '200px',
+      fontSize: '12px',
+      display: 'inline-block'
+    };
+  }
+
+  getTextEditInputStyle() {
+    return {
       display: 'inline-block'
     };
   }
@@ -79,8 +95,14 @@ export default class App extends Component {
       return (
         <div key={this.getRandom()}>
           {keyLabel}
-          <input type="text" defaultValue={value.toString()}/>
-          </div>
+          <TextField
+            id={this.getRandom().toString()}
+            style={this.getTextEditInputFieldStyle()}
+            inputStyle={this.getTextEditInputStyle()}
+            defaultValue={value.toString()}
+          />
+
+        </div>
       );
     }
     else if (typeof(value) === 'object' && (value instanceof Array) && (value.length === 0)) {
