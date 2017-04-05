@@ -162,11 +162,12 @@ function getSignMetadata(bsdm) {
 
   let appSignMetadata = clone(bsdmSignMetadata);
 
-  debugger;
+  // debugger;
+  // appSignMetadata.videoMode = VideoModeName(bsdmSignMetadata.videoMode);
   const videoModeItemDescriptor = new ItemDescriptor('textField', []);
-  const videoModeItem = new PresentationItem('videoMode', 0, videoModeItemDescriptor);
+  const videoModeItem = new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), videoModeItemDescriptor);
+  appSignMetadata.videoMode = videoModeItem;
 
-  appSignMetadata.videoMode = VideoModeName(bsdmSignMetadata.videoMode);
   appSignMetadata.model = PlayerModelName(bsdmSignMetadata.model);
   appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
   appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);

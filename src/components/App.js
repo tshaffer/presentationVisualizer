@@ -10,6 +10,8 @@ const {dialog} = require('electron').remote;
 
 import TreeView from 'react-treeview';
 
+import PresentationItem from '../entities/presentationItem';
+
 export default class App extends Component {
 
   componentDidMount() {
@@ -90,25 +92,36 @@ export default class App extends Component {
 
     const value = propValue.propValues[0];
 
-    if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
+    if (value instanceof PresentationItem) {
+      if (value.itemDescriptor.uiElementType === 'textField') {
+        return (
+          <div key={this.getRandom()}>
+            {keyLabel}
+            <TextField
+              id={this.getRandom().toString()}
+              style={this.getTextEditInputFieldStyle()}
+              inputStyle={this.getTextEditInputStyle()}
+              defaultValue={value.value.toString()}
+            />
+          </div>
+        );
+      }
+    }
+    else if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
       const valueLabel = <span className="info">{value.toString()}</span>;
       return (
-        <div key={this.getRandom()}>
-          {keyLabel}
-          <TextField
-            id={this.getRandom().toString()}
-            style={this.getTextEditInputFieldStyle()}
-            inputStyle={this.getTextEditInputStyle()}
-            defaultValue={value.toString()}
-          />
-
-        </div>
+        <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>{keyLabel}: {valueLabel}</div>
       );
     }
     else if (typeof(value) === 'object' && (value instanceof Array) && (value.length === 0)) {
       return (
         <div key={this.getRandom()}>{keyLabel}: {'empty'}</div>
       );
+    }
+    else if (value === null) {
+      return (
+        <div key={this.getRandom()}>{keyLabel}: {'null'}</div>
+      )
     }
     else {
       return this.getEmbeddedJsx(value);
@@ -139,6 +152,10 @@ export default class App extends Component {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
+
+          console.log('allPropValues: ', treeNode.propValues);
+          console.log('propName: ', treeNode.propName);
+
           const allPropValues = treeNode.propValues;
           const label = <span className="node">{treeNode.propName}</span>;
 
@@ -151,15 +168,20 @@ export default class App extends Component {
   }
 
   buildTreeView(tree) {
+
+    const treeView = this.getTreeView(tree);
+
     return (
       <div key={this.getRandom()}>
-        {this.getTreeView(tree)}
+        {treeView}
       </div>
     );
   }
 
 
   buildTree(nodeName, nodeIn) {
+
+    console.log('nodeIn: ', nodeIn);
 
     let node = {};
     node.propName = nodeName;
@@ -172,7 +194,12 @@ export default class App extends Component {
         let nodeOut = {};
         nodeOut.propName = key;
 
-        if (typeof(value) === 'object' && Object.keys(value).length > 0) {
+        // if (key === 'videoMode') {
+        //   debugger;
+        //   const itemIsPresentationItem = value instanceof PresentationItem;
+        // }
+
+        if ((!(value instanceof PresentationItem)) && value !== null && typeof(value) === 'object' && Object.keys(value).length > 0) {
           value = this.buildTree(key, value);
           nodeOut.propValues = [value];
         }
@@ -181,6 +208,7 @@ export default class App extends Component {
       }
     }
 
+    console.log('node: ', node);
     return node;
   }
 
