@@ -165,7 +165,8 @@ function getSignMetadata(bsdm) {
   // debugger;
   // appSignMetadata.videoMode = VideoModeName(bsdmSignMetadata.videoMode);
   const videoModeItemDescriptor = new ItemDescriptor('textField', []);
-  const videoModeItem = new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), videoModeItemDescriptor);
+  const videoModeItem =
+    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), videoModeItemDescriptor);
   appSignMetadata.videoMode = videoModeItem;
 
   appSignMetadata.model = PlayerModelName(bsdmSignMetadata.model);

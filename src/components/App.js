@@ -82,8 +82,6 @@ export default class App extends Component {
     console.log('handleClick invoked with parameters: ', propName, ' ', propValue);
   }
 
-// <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>{keyLabel}: {valueLabel}</div>
-
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -110,7 +108,9 @@ export default class App extends Component {
     else if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
       const valueLabel = <span className="info">{value.toString()}</span>;
       return (
-        <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>{keyLabel}: {valueLabel}</div>
+        <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>
+          {keyLabel}: {valueLabel}
+        </div>
       );
     }
     else if (typeof(value) === 'object' && (value instanceof Array) && (value.length === 0)) {
@@ -121,7 +121,7 @@ export default class App extends Component {
     else if (value === null) {
       return (
         <div key={this.getRandom()}>{keyLabel}: {'null'}</div>
-      )
+      );
     }
     else {
       return this.getEmbeddedJsx(value);
@@ -194,12 +194,9 @@ export default class App extends Component {
         let nodeOut = {};
         nodeOut.propName = key;
 
-        // if (key === 'videoMode') {
-        //   debugger;
-        //   const itemIsPresentationItem = value instanceof PresentationItem;
-        // }
-
-        if ((!(value instanceof PresentationItem)) && value !== null && typeof(value) === 'object' && Object.keys(value).length > 0) {
+        if ((!(value instanceof PresentationItem))
+          && value !== null && typeof(value) === 'object'
+          && Object.keys(value).length > 0) {
           value = this.buildTree(key, value);
           nodeOut.propValues = [value];
         }
