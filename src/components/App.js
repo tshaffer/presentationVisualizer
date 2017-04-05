@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 
 const {dialog} = require('electron').remote;
 
@@ -78,6 +79,12 @@ export default class App extends Component {
     };
   }
 
+  getCheckBoxStyle() {
+    return {
+      marginLeft: '2px'
+    };
+  }
+
   handleClick(propName, propValue) {
     console.log('handleClick invoked with parameters: ', propName, ' ', propValue);
   }
@@ -100,6 +107,18 @@ export default class App extends Component {
               style={this.getTextEditInputFieldStyle()}
               inputStyle={this.getTextEditInputStyle()}
               defaultValue={value.value.toString()}
+            />
+          </div>
+        );
+      }
+      else if (value.itemDescriptor.uiElementType === 'checkBox') {
+        return (
+          <div key={this.getRandom()}>
+            <Checkbox
+              id={this.getRandom().toString()}
+              style={this.getCheckBoxStyle()}
+              label={keyLabel}
+              labelPosition="left"
             />
           </div>
         );

@@ -162,7 +162,6 @@ function getSignMetadata(bsdm) {
 
   let appSignMetadata = clone(bsdmSignMetadata);
 
-  // debugger;
   // appSignMetadata.videoMode = VideoModeName(bsdmSignMetadata.videoMode);
   const videoModeItemDescriptor = new ItemDescriptor('textField', []);
   const videoModeItem =
@@ -173,7 +172,13 @@ function getSignMetadata(bsdm) {
   appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
   appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);
   appSignMetadata.deviceWebPageDisplay = DeviceWebPageDisplayName(bsdmSignMetadata.deviceWebPageDisplay);
-  appSignMetadata.alphabetizeVariableNames = bsdmSignMetadata.alphabetizeVariableNames;
+
+  // appSignMetadata.alphabetizeVariableNames = bsdmSignMetadata.alphabetizeVariableNames;
+  const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
+  const alphabetizeVariableNamesItem =
+    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, alphabetizeVariableNamesDescriptor);
+  appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
+
   appSignMetadata.delayScheduleChangeUntilMediaEndEvent = bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent;
   appSignMetadata.htmlEnableJavascriptConsole = bsdmSignMetadata.htmlEnableJavascriptConsole;
   appSignMetadata.backgroundScreenColor = bsdmSignMetadata.backgroundScreenColor;
