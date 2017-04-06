@@ -18,13 +18,6 @@ import PresentationItem from '../entities/presentationItem';
 
 export default class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectFieldValue: '',
-    };
-  }
-
   componentDidMount() {
     console.log("app.js::componentDidMount invoked");
   }
@@ -102,13 +95,11 @@ export default class App extends Component {
   buildSelectFieldMenuItem(index, text) {
 
     return (
-      <MenuItem key={this.getRandom()} value={text} primaryText={text}/>
+      <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
     );
   }
 
   buildSelectFieldMenuItems(values) {
-
-    // this.setState({selectFieldValue : values[0]});
 
     const menuItems = values.map( (menuItemText, index) => {
       return this.buildSelectFieldMenuItem(index, menuItemText);
@@ -122,7 +113,18 @@ export default class App extends Component {
     console.log('event: ', event);
     console.log('index: ', index);
     console.log('value: ', value);
-    this.setState({selectFieldValue : value});
+
+    const propKeys = arguments[0];
+
+    let prop = this.props.presentation.autoplay.BrightAuthor;
+    for (let i = 0; i < propKeys.length - 1; i++) {
+      prop = prop[propKeys[i]];
+    }
+    prop[propKeys[propKeys.length - 1]] = value;
+
+    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
+
+    this.forceUpdate();
   }
 
   renderPropValue(propValue) {
@@ -163,11 +165,26 @@ export default class App extends Component {
       else if (value.itemDescriptor.uiElementType === 'selectField') {
         console.log(this.props.presentation);
         const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
+
+        // const propValue = this.props.presentation.autoplay.BrightAuthor['meta']['model']['value'];
+        // const propValue = this.props.presentation.autoplay.BrightAuthor.meta.model.value;
+        // value={this.props.presentation.autoplay.BrightAuthor.meta.model.value}
+        let propValue = this.props.presentation.autoplay.BrightAuthor;
+        value.propKeys.forEach( (propKey, index) => {
+          console.log(propValue);
+          propValue = propValue[propKey];
+          console.log(propValue);
+        });
+
+        console.log('final propValue: ', propValue);
+
+        const propKeys = value.propKeys;
+
         return (
           <SelectField
             floatingLabelText={keyLabel}
-            value={this.props.presentation.autoplay.BrightAuthor.meta.model.value}
-            onChange={this.handleSelectFieldChange.bind(this)}
+            value={propValue}
+            onChange={this.handleSelectFieldChange.bind(this, propKeys)}
             key={this.getRandom()}
           >
             {selectFieldMenuItems}
