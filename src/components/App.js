@@ -109,18 +109,30 @@ export default class App extends Component {
   }
 
 
-  handleSelectFieldChange(event, index, value) {
-    console.log('event: ', event);
-    console.log('index: ', index);
-    console.log('value: ', value);
+  // handleSelectFieldChange(event, index, value) {
+  //   console.log('event: ', event);
+  //   console.log('index: ', index);
+  //   console.log('value: ', value);
 
-    const propKeys = arguments[0];
+  handleSelectFieldChange(propKeys, event, key, payload) {
+
+    console.log('propKeys: ', propKeys);
+    console.log('type of propKeys: ', typeof(propKeys));
+
+    console.log('event: ', event);
+    console.log('type of event: ', typeof(event));
+
+    console.log('key: ', key);
+    console.log('type of key: ', typeof(key));
+
+    console.log('payload: ', payload);
+    console.log('type of payload: ', typeof(payload));
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]] = value;
+    prop[propKeys[propKeys.length - 1]] = payload;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
 
