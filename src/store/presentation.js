@@ -168,7 +168,12 @@ function getSignMetadata(bsdm) {
     new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), videoModeItemDescriptor);
   appSignMetadata.videoMode = videoModeItem;
 
-  appSignMetadata.model = PlayerModelName(bsdmSignMetadata.model);
+  // appSignMetadata.model = PlayerModelName(bsdmSignMetadata.model);
+  const modelItemDescriptor = new ItemDescriptor('selectField', ['XT1143', 'XD233', 'HD1023']);
+  const modelItem =
+    new PresentationItem('model', PlayerModelName(bsdmSignMetadata.model), modelItemDescriptor);
+  appSignMetadata.model = modelItem;
+
   appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
   appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);
   appSignMetadata.deviceWebPageDisplay = DeviceWebPageDisplayName(bsdmSignMetadata.deviceWebPageDisplay);

@@ -1,11 +1,14 @@
 // @flow
 
 import React, { Component } from 'react';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const {dialog} = require('electron').remote;
 
@@ -14,6 +17,13 @@ import TreeView from 'react-treeview';
 import PresentationItem from '../entities/presentationItem';
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectFieldValue: '',
+    };
+  }
 
   componentDidMount() {
     console.log("app.js::componentDidMount invoked");
@@ -89,6 +99,32 @@ export default class App extends Component {
     console.log('handleClick invoked with parameters: ', propName, ' ', propValue);
   }
 
+  buildSelectFieldMenuItem(index, text) {
+
+    return (
+      <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
+    );
+  }
+
+  buildSelectFieldMenuItems(values) {
+
+    // this.setState({selectFieldValue : values[0]});
+
+    const menuItems = values.map( (menuItemText, index) => {
+      return this.buildSelectFieldMenuItem(index, menuItemText);
+    });
+
+    return menuItems;
+  }
+
+
+  handleSelectFieldChange(event, index, value) {
+    console.log('event: ', event);
+    console.log('index: ', index);
+    console.log('value: ', value);
+    this.setState({selectFieldValue : value});
+  }
+
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -112,15 +148,29 @@ export default class App extends Component {
         );
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
+        // labelPosition="left"
         return (
           <div key={this.getRandom()}>
             <Checkbox
               id={this.getRandom().toString()}
               style={this.getCheckBoxStyle()}
               label={keyLabel}
-              labelPosition="left"
+              defaultChecked={value.value}
             />
           </div>
+        );
+      }
+      // value={this.streamIndicesByDecoderRow[decoderIndex]}
+      else if (value.itemDescriptor.uiElementType === 'selectField') {
+        const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
+        return (
+          <SelectField
+            floatingLabelText={keyLabel}
+            value={this.state.selectFieldValue}
+            onChange={this.handleSelectFieldChange.bind(this)}
+          >
+            {selectFieldMenuItems}
+          </SelectField>
         );
       }
     }
@@ -200,7 +250,7 @@ export default class App extends Component {
 
   buildTree(nodeName, nodeIn) {
 
-    console.log('nodeIn: ', nodeIn);
+    // console.log('nodeIn: ', nodeIn);
 
     let node = {};
     node.propName = nodeName;
@@ -224,7 +274,7 @@ export default class App extends Component {
       }
     }
 
-    console.log('node: ', node);
+    // console.log('node: ', node);
     return node;
   }
 
