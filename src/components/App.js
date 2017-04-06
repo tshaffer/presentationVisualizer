@@ -166,13 +166,11 @@ export default class App extends Component {
           propValue = propValue[propKey];
         });
 
-        const propKeys = value.propKeys;
-
         return (
           <SelectField
             floatingLabelText={keyLabel}
             value={propValue}
-            onChange={this.handleSelectFieldChange.bind(this, propKeys)}
+            onChange={this.handleSelectFieldChange.bind(this, value.propKeys)}
             key={this.getRandom()}
           >
             {selectFieldMenuItems}
