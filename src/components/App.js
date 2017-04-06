@@ -102,7 +102,7 @@ export default class App extends Component {
   buildSelectFieldMenuItem(index, text) {
 
     return (
-      <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
+      <MenuItem key={this.getRandom()} value={text} primaryText={text}/>
     );
   }
 
@@ -160,14 +160,15 @@ export default class App extends Component {
           </div>
         );
       }
-      // value={this.streamIndicesByDecoderRow[decoderIndex]}
       else if (value.itemDescriptor.uiElementType === 'selectField') {
+        console.log(this.props.presentation);
         const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
         return (
           <SelectField
             floatingLabelText={keyLabel}
-            value={this.state.selectFieldValue}
+            value={this.props.presentation.autoplay.BrightAuthor.meta.model.value}
             onChange={this.handleSelectFieldChange.bind(this)}
+            key={this.getRandom()}
           >
             {selectFieldMenuItems}
           </SelectField>
