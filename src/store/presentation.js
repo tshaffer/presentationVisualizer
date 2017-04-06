@@ -34,7 +34,6 @@ import {
   AudioOutputTypeName,
   AudioMixModeTypeName,
   DeviceWebPageDisplayName,
-  PlayerModelName,
   MonitorOrientationTypeName,
   VideoConnectorTypeName,
   LiveVideoInputTypeName,
@@ -193,7 +192,8 @@ function getSignMetadata(bsdm) {
   // appSignMetadata.alphabetizeVariableNames = bsdmSignMetadata.alphabetizeVariableNames;
   const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
   const alphabetizeVariableNamesItem =
-    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, [], alphabetizeVariableNamesDescriptor);
+    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, [],
+      alphabetizeVariableNamesDescriptor);
   appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
 
   appSignMetadata.delayScheduleChangeUntilMediaEndEvent = bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent;
