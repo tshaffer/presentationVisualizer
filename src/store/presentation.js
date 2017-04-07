@@ -185,7 +185,6 @@ function getSignMetadata(bsdm) {
   appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);
   appSignMetadata.deviceWebPageDisplay = DeviceWebPageDisplayName(bsdmSignMetadata.deviceWebPageDisplay);
 
-  // appSignMetadata.alphabetizeVariableNames = bsdmSignMetadata.alphabetizeVariableNames;
   const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
   const alphabetizeVariableNamesItem =
     new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, ['meta', 'alphabetizeVariableNames', 'value'],

@@ -140,6 +140,20 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
+  // handleCheckboxChange(propKeys, event, isInputChecked) {
+  handleCheckboxChange(propKeys, _, isInputChecked) {
+
+    let prop = this.props.presentation.autoplay.BrightAuthor;
+    for (let i = 0; i < propKeys.length - 1; i++) {
+      prop = prop[propKeys[i]];
+    }
+    prop[propKeys[propKeys.length - 1]] = isInputChecked;
+
+    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
+
+    this.forceUpdate();
+  }
+
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -150,11 +164,6 @@ export default class App extends Component {
 
     if (value instanceof PresentationItem) {
       if (value.itemDescriptor.uiElementType === 'textField') {
-
-        // value, onChange
-        /*
-         function(event: object, newValue: string)
-         */
 
         let propValue = this.props.presentation.autoplay.BrightAuthor;
         value.propKeys.forEach( (propKey) => {
@@ -176,13 +185,6 @@ export default class App extends Component {
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
 
-        // https://github.com/callemall/material-ui/issues/2983
-        /*
-         onCheck callback signature: function(event: object, isInputChecked: boolean)
-         While using this pattern I never had any trouble with situations described in this issue.
-         With that I mean using onCheck to keep track of the checked state in the parents component state and setting
-         the checked prop to reflect the component state back to the CheckBox.
-         */
         let propValue = this.props.presentation.autoplay.BrightAuthor;
         value.propKeys.forEach( (propKey) => {
           propValue = propValue[propKey];
@@ -194,7 +196,8 @@ export default class App extends Component {
               id={this.getRandom().toString()}
               style={this.getCheckBoxStyle()}
               label={keyLabel}
-              defaultChecked={value.value}
+              checked={propValue}
+              onCheck={this.handleCheckboxChange.bind(this, value.propKeys)}
             />
           </div>
         );
