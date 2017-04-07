@@ -20,6 +20,10 @@ export default class App extends Component {
 
   componentDidMount() {
     console.log("app.js::componentDidMount invoked");
+
+    this.divFieldKey = this.getRandom().toString();
+    this.textFieldKey = this.getRandom().toString();
+    this.textFieldId = this.getRandom().toString();
   }
 
   browseForFile() {
@@ -136,8 +140,6 @@ export default class App extends Component {
     prop[propKeys[propKeys.length - 1]] = selectedMenuItemValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
-
-    this.forceUpdate();
   }
 
   // handleCheckboxChange(propKeys, event, isInputChecked) {
@@ -179,10 +181,11 @@ export default class App extends Component {
         const propValue = this.getPropValue(value.propKeys);
 
         return (
-          <div key={this.getRandom()}>
+          <div key={this.divFieldKey}>
             {keyLabel}
             <TextField
-              id={this.getRandom().toString()}
+              key={this.textFieldKey}
+              id={this.textFieldId}
               style={this.getTextEditInputFieldStyle()}
               inputStyle={this.getTextEditInputStyle()}
               value={propValue}
