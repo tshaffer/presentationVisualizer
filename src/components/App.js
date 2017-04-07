@@ -154,6 +154,17 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
+
+  getPropValue(propKeys) {
+    let propValue = this.props.presentation.autoplay.BrightAuthor;
+    propKeys.forEach( (propKey) => {
+      propValue = propValue[propKey];
+    });
+
+    return propValue;
+  }
+
+
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -165,10 +176,7 @@ export default class App extends Component {
     if (value instanceof PresentationItem) {
       if (value.itemDescriptor.uiElementType === 'textField') {
 
-        let propValue = this.props.presentation.autoplay.BrightAuthor;
-        value.propKeys.forEach( (propKey) => {
-          propValue = propValue[propKey];
-        });
+        const propValue = this.getPropValue(value.propKeys);
 
         return (
           <div key={this.getRandom()}>
@@ -185,10 +193,7 @@ export default class App extends Component {
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
 
-        let propValue = this.props.presentation.autoplay.BrightAuthor;
-        value.propKeys.forEach( (propKey) => {
-          propValue = propValue[propKey];
-        });
+        const propValue = this.getPropValue(value.propKeys);
 
         return (
           <div key={this.getRandom()}>
@@ -205,10 +210,7 @@ export default class App extends Component {
       else if (value.itemDescriptor.uiElementType === 'selectField') {
         const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
 
-        let propValue = this.props.presentation.autoplay.BrightAuthor;
-        value.propKeys.forEach( (propKey) => {
-          propValue = propValue[propKey];
-        });
+        const propValue = this.getPropValue(value.propKeys);
 
         return (
           <SelectField
