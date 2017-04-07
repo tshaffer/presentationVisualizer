@@ -99,7 +99,8 @@ export default class App extends Component {
   buildSelectFieldMenuItem(index, text) {
 
     return (
-      <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
+      <MenuItem key={this.getRandom()} value={index} primaryText={text} disableAutoFocus={true}
+      />
     );
   }
 
@@ -118,6 +119,7 @@ export default class App extends Component {
 
 // losing focus
 // https://github.com/callemall/material-ui/issues/783
+// https://github.com/callemall/material-ui/issues/4387
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
