@@ -109,6 +109,23 @@ export default class App extends Component {
   }
 
 
+  // handleTextFieldChange(propKeys, event, newValue) {
+  handleTextFieldChange(propKeys, _, newValue) {
+
+// losing focus
+// https://github.com/callemall/material-ui/issues/783
+
+    let prop = this.props.presentation.autoplay.BrightAuthor;
+    for (let i = 0; i < propKeys.length - 1; i++) {
+      prop = prop[propKeys[i]];
+    }
+    prop[propKeys[propKeys.length - 1]] = newValue;
+
+    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.videoMode.value);
+
+    this.forceUpdate();
+  }
+
   // handleSelectFieldChange(propKeys, event, selectedIndex, selectedMenuItemValue) {
   handleSelectFieldChange(propKeys, _, __, selectedMenuItemValue) {
 
@@ -133,6 +150,17 @@ export default class App extends Component {
 
     if (value instanceof PresentationItem) {
       if (value.itemDescriptor.uiElementType === 'textField') {
+
+        // value, onChange
+        /*
+         function(event: object, newValue: string)
+         */
+
+        let propValue = this.props.presentation.autoplay.BrightAuthor;
+        value.propKeys.forEach( (propKey) => {
+          propValue = propValue[propKey];
+        });
+
         return (
           <div key={this.getRandom()}>
             {keyLabel}
@@ -140,13 +168,26 @@ export default class App extends Component {
               id={this.getRandom().toString()}
               style={this.getTextEditInputFieldStyle()}
               inputStyle={this.getTextEditInputStyle()}
-              defaultValue={value.value.toString()}
+              value={propValue}
+              onChange={this.handleTextFieldChange.bind(this, value.propKeys)}
             />
           </div>
         );
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
-        // labelPosition="left"
+
+        // https://github.com/callemall/material-ui/issues/2983
+        /*
+         onCheck callback signature: function(event: object, isInputChecked: boolean)
+         While using this pattern I never had any trouble with situations described in this issue.
+         With that I mean using onCheck to keep track of the checked state in the parents component state and setting
+         the checked prop to reflect the component state back to the CheckBox.
+         */
+        let propValue = this.props.presentation.autoplay.BrightAuthor;
+        value.propKeys.forEach( (propKey) => {
+          propValue = propValue[propKey];
+        });
+
         return (
           <div key={this.getRandom()}>
             <Checkbox
