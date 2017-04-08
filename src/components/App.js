@@ -112,14 +112,12 @@ export default class App extends Component {
   // handleTextFieldChange(propKeys, event, newValue) {
   handleTextFieldChange(propKeys, _, newValue) {
 
-// losing focus
-// https://github.com/callemall/material-ui/issues/783
-
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]] = newValue;
+    // prop[propKeys[propKeys.length - 1]] = newValue;
+    prop[propKeys[propKeys.length - 1]].value = newValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.videoMode.value);
 
@@ -133,7 +131,8 @@ export default class App extends Component {
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]] = selectedMenuItemValue;
+    // prop[propKeys[propKeys.length - 1]] = selectedMenuItemValue;
+    prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
 
@@ -147,7 +146,8 @@ export default class App extends Component {
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]] = isInputChecked;
+    // prop[propKeys[propKeys.length - 1]] = isInputChecked;
+    prop[propKeys[propKeys.length - 1]].value = isInputChecked;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
 
@@ -161,7 +161,8 @@ export default class App extends Component {
       propValue = propValue[propKey];
     });
 
-    return propValue;
+    // return propValue;
+    return propValue['value'];
   }
 
 

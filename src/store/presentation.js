@@ -163,7 +163,7 @@ function getSignMetadata(bsdm) {
 
   const videoModeItemDescriptor = new ItemDescriptor('textField', []);
   const videoModeItem =
-    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), ['meta', 'videoMode', 'value'], videoModeItemDescriptor);
+    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), ['meta', 'videoMode'], videoModeItemDescriptor);
   appSignMetadata.videoMode = videoModeItem;
 
   const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
@@ -178,7 +178,7 @@ function getSignMetadata(bsdm) {
     'HD972', 'HD970', 'AU320']);
 
   const modelItem =
-    new PresentationItem('model', bsdmSignMetadata.model, ['meta', 'model', 'value'], modelItemDescriptor);
+    new PresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'], modelItemDescriptor);
   appSignMetadata.model = modelItem;
 
   appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
@@ -187,7 +187,7 @@ function getSignMetadata(bsdm) {
 
   const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
   const alphabetizeVariableNamesItem =
-    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, ['meta', 'alphabetizeVariableNames', 'value'],
+    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, ['meta', 'alphabetizeVariableNames'],
       alphabetizeVariableNamesDescriptor);
   appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
 
