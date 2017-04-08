@@ -22,9 +22,6 @@ import {
   TransitionTypeName,
   EventTypeName,
   dmGetEventById,
-  GraphicsZOrderTypeName,
-  TouchCursorDisplayModeTypeName,
-  UdpAddressTypeName,
   ZoneTypeCompactName,
   ViewModeTypeName,
   ImageModeTypeName,
@@ -33,9 +30,6 @@ import {
   AudioMappingTypeName,
   AudioOutputTypeName,
   AudioMixModeTypeName,
-  DeviceWebPageDisplayName,
-  MonitorOrientationTypeName,
-  VideoConnectorTypeName,
   LiveVideoInputTypeName,
   LiveVideoStandardTypeName,
   dmUpdateSignProperties,
@@ -186,6 +180,7 @@ function getSignMetadata(bsdm) {
 
   let appSignMetadata = clone(bsdmSignMetadata);
 
+  // TODO
   appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
     ['meta', 'videoMode']);
 
@@ -201,44 +196,73 @@ function getSignMetadata(bsdm) {
       'HD922', 'HD920', 'A915', 'HD917',
       'HD972', 'HD970', 'AU320']);
 
-  // const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
-  //   'XD1033', 'XD233',
-  //   'XT1143', 'XT243',
-  //   'HD1022', 'HD222',
-  //   'XD1132', 'XD1032', 'XD232',
-  //   'FK1142', 'FK1042', 'FK242',
-  //   'HD1020', 'HD220', 'HD120', 'LS422', 'LS322',
-  //   'XD1230', 'XD1030', 'XD230',
-  //   'HD922', 'HD920', 'A915', 'HD917',
-  //   'HD972', 'HD970', 'AU320']);
-  //
-  // const modelItem =
-  //   new PresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'], modelItemDescriptor);
-  // appSignMetadata.model = modelItem;
+  appSignMetadata.monitorOrientation = buildSelectFieldPresentationItem(
+    'monitorOrientation',
+    bsdmSignMetadata.monitorOrientation,
+    ['meta', 'monitorOrientation'],
+    [
+      'Landscape',
+      'Portrait__bottom_on_left',
+      'Portrait__bottom_on_right'
+    ]
+  );
 
-  appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
-  appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);
-  appSignMetadata.deviceWebPageDisplay = DeviceWebPageDisplayName(bsdmSignMetadata.deviceWebPageDisplay);
+  appSignMetadata.videoConnector = buildSelectFieldPresentationItem(
+    'videoConnector',
+    bsdmSignMetadata.videoConnector,
+    ['meta', 'videoConnector'],
+    [
+      'HDMI',
+      'VGA',
+      'Component'
+    ]
+  );
 
-  appSignMetadata.alphabetizeVariableNames = buildCheckboxPresentationItem('alphabetizeVariableNames',
-    bsdmSignMetadata.alphabetizeVariableNames,['meta', 'alphabetizeVariableNames']);
-  // const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
-  // const alphabetizeVariableNamesItem =
-  //   new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames,
-  //     ['meta', 'alphabetizeVariableNames'],
-  //     alphabetizeVariableNamesDescriptor);
-  // appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
+  appSignMetadata.deviceWebPageDisplay = buildSelectFieldPresentationItem(
+    'deviceWebPageDisplay',
+    bsdmSignMetadata.deviceWebPageDisplay,
+    ['meta', 'deviceWebPageDisplay'],
+    [
+      'None',
+      'Standard',
+      'Custom'
+    ]
+  );
 
-  appSignMetadata.delayScheduleChangeUntilMediaEndEvent = bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent;
-  appSignMetadata.htmlEnableJavascriptConsole = bsdmSignMetadata.htmlEnableJavascriptConsole;
-  appSignMetadata.backgroundScreenColor = bsdmSignMetadata.backgroundScreenColor;
-  appSignMetadata.backgroundScreenColor.a = 255;
-  appSignMetadata.backgroundScreenColor.r = 0;
-  appSignMetadata.backgroundScreenColor.g = 0;
-  appSignMetadata.backgroundScreenColor.b = 0;
-  appSignMetadata.forceResolution = bsdmSignMetadata.forceResolution;
-  appSignMetadata.tenBitColorEnabled = bsdmSignMetadata.tenBitColorEnabled;
-  appSignMetadata.monitorOverscan = 'noOverscan';   // TODO not in bsdm
+  appSignMetadata.alphabetizeVariableNames = buildCheckboxPresentationItem(
+    'alphabetizeVariableNames',
+    bsdmSignMetadata.alphabetizeVariableNames,
+    ['meta', 'alphabetizeVariableNames']);
+
+  appSignMetadata.delayScheduleChangeUntilMediaEndEvent = buildCheckboxPresentationItem(
+    'delayScheduleChangeUntilMediaEndEvent',
+    bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent,
+    ['meta', 'delayScheduleChangeUntilMediaEndEvent']);
+
+  appSignMetadata.htmlEnableJavascriptConsole = buildCheckboxPresentationItem(
+    'htmlEnableJavascriptConsole',
+    bsdmSignMetadata.htmlEnableJavascriptConsole,
+    ['meta', 'htmlEnableJavascriptConsole']);
+
+  // TODO
+  // appSignMetadata.backgroundScreenColor = bsdmSignMetadata.backgroundScreenColor;
+  // appSignMetadata.backgroundScreenColor.a = 255;
+  // appSignMetadata.backgroundScreenColor.r = 0;
+  // appSignMetadata.backgroundScreenColor.g = 0;
+  // appSignMetadata.backgroundScreenColor.b = 0;
+
+  appSignMetadata.forceResolution = buildCheckboxPresentationItem(
+    'forceResolution',
+    bsdmSignMetadata.forceResolution,
+    ['meta', 'forceResolution']);
+
+  appSignMetadata.tenBitColorEnabled = buildCheckboxPresentationItem(
+    'tenBitColorEnabled',
+    bsdmSignMetadata.tenBitColorEnabled,
+    ['meta', 'tenBitColorEnabled']);
+
+  // TODO
+  // appSignMetadata.monitorOverscan = 'noOverscan';   // TODO not in bsdm
 
   appSignMetadata.gpio = bsdmSignMetadata.gpio;
 
@@ -246,27 +270,93 @@ function getSignMetadata(bsdm) {
 
   appSignMetadata.serialPortConfigurations = bsdmSignMetadata.serialPortConfigurations;
 
-  appSignMetadata.udpDestinationAddressType = UdpAddressTypeName(bsdmSignMetadata.udpDestinationAddressType);
-  appSignMetadata.udpDestinationAddress = bsdmSignMetadata.udpDestinationAddress;
-  appSignMetadata.udpDestinationPort = bsdmSignMetadata.udpDestinationPort;
-  appSignMetadata.udpReceiverPort = bsdmSignMetadata.udpReceiverPort;
-  appSignMetadata.flipCoordinates = bsdmSignMetadata.flipCoordinates;
+  appSignMetadata.udpDestinationAddressType = buildSelectFieldPresentationItem(
+    'udpDestinationAddressType',
+    bsdmSignMetadata.udpDestinationAddressType,
+    ['meta', 'udpDestinationAddressType'],
+    [
+      'IPAddress',
+      'LocalSubnet',
+      'Ethernet',
+      'Wireless'
+    ]
+  );
 
-  appSignMetadata.touchCursorDisplayMode = TouchCursorDisplayModeTypeName(bsdmSignMetadata.touchCursorDisplayMode);
+  appSignMetadata.udpDestinationAddress = buildTextPresentationItem(
+    'udpDestinationAddress',
+    bsdmSignMetadata.udpDestinationAddress,
+    ['meta', 'udpDestinationAddress']);
 
-  appSignMetadata.language = bsdmSignMetadata.language;
-  appSignMetadata.languageKey = bsdmSignMetadata.languageKey;
+  appSignMetadata.udpDestinationPort = buildTextPresentationItem(
+    'udpDestinationPort',
+    bsdmSignMetadata.udpDestinationPort,
+    ['meta', 'udpDestinationPort']);
+  
+  appSignMetadata.udpReceiverPort = buildTextPresentationItem('udpReceiverPort', bsdmSignMetadata.udpReceiverPort,
+    ['meta', 'udpReceiverPort']);
+
+  appSignMetadata.flipCoordinates = buildCheckboxPresentationItem(
+    'flipCoordinates',
+    bsdmSignMetadata.flipCoordinates,
+    ['meta', 'flipCoordinates']);
+  
+  appSignMetadata.touchCursorDisplayMode = buildSelectFieldPresentationItem(
+    'touchCursorDisplayMode',
+    bsdmSignMetadata.touchCursorDisplayMode,
+    ['meta', 'touchCursorDisplayMode'],
+    [
+      'Disabled',
+      'Auto',
+      'Display'
+    ]
+  );
+
+  appSignMetadata.language = buildTextPresentationItem('language', bsdmSignMetadata.language,
+    ['meta', 'language']);
+
+  appSignMetadata.languageKey = buildTextPresentationItem('languageKey', bsdmSignMetadata.languageKey,
+    ['meta', 'languageKey']);
 
   appSignMetadata.audioConfiguration = bsdmSignMetadata.audioConfiguration;
 
-  appSignMetadata.inactivityTimeout = bsdmSignMetadata.inactivityTimeout;
-  appSignMetadata.inactivityTime = bsdmSignMetadata.inactivityTime;
-  appSignMetadata.autoCreateMediaCounterVariables = bsdmSignMetadata.autoCreateMediaCounterVariables;
-  appSignMetadata.resetVariablesOnPresentationStart = bsdmSignMetadata.resetVariablesOnPresentationStart;
-  appSignMetadata.networkedVariablesUpdateInterval = bsdmSignMetadata.networkedVariablesUpdateInterval;
+  appSignMetadata.inactivityTimeout = buildCheckboxPresentationItem(
+    'inactivityTimeout',
+    bsdmSignMetadata.inactivityTimeout,
+    ['meta', 'inactivityTimeout']);
 
-  appSignMetadata.graphicsZOrder = GraphicsZOrderTypeName(bsdmSignMetadata.graphicsZOrder);
-  appSignMetadata.isMosaic = bsdmSignMetadata.isMosaic;
+  appSignMetadata.inactivityTime = buildTextPresentationItem('inactivityTime', bsdmSignMetadata.inactivityTime,
+    ['meta', 'inactivityTime']);
+
+  appSignMetadata.autoCreateMediaCounterVariables = buildCheckboxPresentationItem(
+    'autoCreateMediaCounterVariables',
+    bsdmSignMetadata.autoCreateMediaCounterVariables,
+    ['meta', 'autoCreateMediaCounterVariables']);
+
+  appSignMetadata.resetVariablesOnPresentationStart = buildCheckboxPresentationItem(
+    'resetVariablesOnPresentationStart',
+    bsdmSignMetadata.resetVariablesOnPresentationStart,
+    ['meta', 'resetVariablesOnPresentationStart']);
+
+  appSignMetadata.networkedVariablesUpdateInterval = buildTextPresentationItem(
+    'networkedVariablesUpdateInterval', bsdmSignMetadata.networkedVariablesUpdateInterval,
+    ['meta', 'networkedVariablesUpdateInterval']);
+
+  appSignMetadata.graphicsZOrder = buildSelectFieldPresentationItem(
+    'graphicsZOrder',
+    bsdmSignMetadata.graphicsZOrder,
+    ['meta', 'graphicsZOrder'],
+    [
+      'Back',
+      'Middle',
+      'Front'
+    ]
+  );
+
+  appSignMetadata.isMosaic = buildCheckboxPresentationItem(
+    'isMosaic',
+    bsdmSignMetadata.isMosaic,
+    ['meta', 'isMosaic']);
+
 
   // not part of metadata
   // TODO - correct defaults?
@@ -290,35 +380,35 @@ function getSignParams(appSignMetadata) {
   // signParams.name = appSignMetadata.name;
   // signParams.videoMode = appSignMetadata.videoMode.value;
   signParams.model = appSignMetadata.model.value;
-  signParams.monitorOrientation = appSignMetadata.monitorOrientation;
-  signParams.videoConnector = appSignMetadata.videoConnector;
-  signParams.deviceWebPageDisplay = appSignMetadata.deviceWebPageDisplay;
+  signParams.monitorOrientation = appSignMetadata.monitorOrientation.value;
+  signParams.videoConnector = appSignMetadata.videoConnector.value;
+  signParams.udpDestinationAddressType = appSignMetadata.udpDestinationAddressType.value;
   signParams.alphabetizeVariableNames = appSignMetadata.alphabetizeVariableNames.value;
-  signParams.delayScheduleChangeUntilMediaEndEvent = appSignMetadata.delayScheduleChangeUntilMediaEndEvent;
-  signParams.htmlEnableJavascriptConsole = appSignMetadata.htmlEnableJavascriptConsole;
-  signParams.backgroundScreenColor = appSignMetadata.backgroundScreenColor;
-  signParams.forceResolution = appSignMetadata.forceResolution;
-  signParams.tenBitColorEnabled = appSignMetadata.tenBitColorEnabled;
+  signParams.delayScheduleChangeUntilMediaEndEvent = appSignMetadata.delayScheduleChangeUntilMediaEndEvent.value;
+  signParams.htmlEnableJavascriptConsole = appSignMetadata.htmlEnableJavascriptConsole.value;
+  // signParams.backgroundScreenColor = appSignMetadata.backgroundScreenColor;
+  signParams.forceResolution = appSignMetadata.forceResolution.value;
+  signParams.tenBitColorEnabled = appSignMetadata.tenBitColorEnabled.value;
   // monitor overscan
   // ?gpio
   // ?buttonPanels
   // ?serialPortConfigurations
-  signParams.udpDestinationAddressType = appSignMetadata.udpDestinationAddressType;
-  signParams.udpDestinationAddress = appSignMetadata.udpDestinationAddress;
-  signParams.udpDestinationPort = appSignMetadata.udpDestinationPort;
-  signParams.udpReceiverPort = appSignMetadata.udpReceiverPort;
-  signParams.flipCoordinates = appSignMetadata.flipCoordinates;
-  signParams.touchCursorDisplayMode = appSignMetadata.touchCursorDisplayMode;
-  signParams.language = appSignMetadata.language;
-  signParams.languageKey = appSignMetadata.languageKey;
+  signParams.udpDestinationAddressType = appSignMetadata.udpDestinationAddressType.value;
+  signParams.udpDestinationAddress = appSignMetadata.udpDestinationAddress.value;
+  signParams.udpDestinationPort = appSignMetadata.udpDestinationPort.value;
+  signParams.udpReceiverPort = appSignMetadata.udpReceiverPort.value;
+  signParams.flipCoordinates = appSignMetadata.flipCoordinates.value;
+  signParams.touchCursorDisplayMode = appSignMetadata.touchCursorDisplayMode.value;
+  signParams.language = appSignMetadata.language.value;
+  signParams.languageKey = appSignMetadata.languageKey.value;
   // ?audioConfiguration
-  signParams.inactivityTimeout = appSignMetadata.inactivityTimeout;
-  signParams.inactivityTime = appSignMetadata.inactivityTime;
-  signParams.autoCreateMediaCounterVariables = appSignMetadata.autoCreateMediaCounterVariables;
-  signParams.resetVariablesOnPresentationStart = appSignMetadata.resetVariablesOnPresentationStart;
-  signParams.networkedVariablesUpdateInterval = appSignMetadata.networkedVariablesUpdateInterval;
-  signParams.graphicsZOrder = appSignMetadata.graphicsZOrder;
-  signParams.isMosaic = appSignMetadata.isMosaic;
+  signParams.inactivityTimeout = appSignMetadata.inactivityTimeout.value;
+  signParams.inactivityTime = appSignMetadata.inactivityTime.value;
+  signParams.autoCreateMediaCounterVariables = appSignMetadata.autoCreateMediaCounterVariables.value;
+  signParams.resetVariablesOnPresentationStart = appSignMetadata.resetVariablesOnPresentationStart.value;
+  signParams.networkedVariablesUpdateInterval = appSignMetadata.networkedVariablesUpdateInterval.value;
+  signParams.graphicsZOrder = appSignMetadata.graphicsZOrder.value;
+  signParams.isMosaic = appSignMetadata.isMosaic.value;
 
   return signParams;
 }

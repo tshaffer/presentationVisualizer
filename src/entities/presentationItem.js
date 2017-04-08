@@ -1,6 +1,6 @@
 /* @flow */
 
-class PresentationItem {
+export default class PresentationItem {
 
   name: string;
   value: Object;
@@ -62,6 +62,9 @@ export function buildCheckboxPresentationItem(
   parameterValue : Object,
   propertyKeys : Array<string>) {
 
+  if (typeof(parameterValue) !== 'boolean') {
+    debugger;
+  }
   const parameterItemDescriptor = new ItemDescriptor('checkBox');
   const selectFieldPresentationItem =
     new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);

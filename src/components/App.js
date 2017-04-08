@@ -121,8 +121,6 @@ export default class App extends Component {
     }
     prop[propKeys[propKeys.length - 1]].value = newValue;
 
-    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.videoMode.value);
-
     this.forceUpdate();
   }
 
@@ -134,8 +132,6 @@ export default class App extends Component {
     }
     prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
 
-    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
-
     this.forceUpdate();
   }
 
@@ -146,9 +142,6 @@ export default class App extends Component {
       prop = prop[propKeys[i]];
     }
     prop[propKeys[propKeys.length - 1]].value = isInputChecked;
-
-    console.log('value that was set is: ',
-      this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
 
     this.forceUpdate();
   }
@@ -207,19 +200,22 @@ export default class App extends Component {
         );
       }
       else if (value.itemDescriptor.uiElementType === 'selectField') {
+
         const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
 
         const propValue = this.getPropValue(value.propKeys);
 
         return (
-          <SelectField
-            floatingLabelText={keyLabel}
-            value={propValue}
-            onChange={this.handleSelectFieldChange.bind(this, value.propKeys)}
-            key={this.getRandom()}
-          >
-            {selectFieldMenuItems}
-          </SelectField>
+          <div>
+            <SelectField
+              floatingLabelText={keyLabel}
+              value={propValue}
+              onChange={this.handleSelectFieldChange.bind(this, value.propKeys)}
+              key={this.getRandom()}
+            >
+              {selectFieldMenuItems}
+            </SelectField>
+          </div>
         );
       }
     }
