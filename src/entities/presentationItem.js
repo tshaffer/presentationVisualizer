@@ -33,3 +33,15 @@ export class ItemDescriptor {
     this.dropDownValues = dropDownValues;
   }
 }
+
+export function buildTextPresentationItem(
+  parameterName : string,
+  parameterValue : Object,
+  propertyKeys : Array<string>) {
+
+  const parameterItemDescriptor = new ItemDescriptor('textField', []);
+  const textPresentationItem =
+    new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);
+  return textPresentationItem;
+}
+

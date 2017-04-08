@@ -44,6 +44,8 @@ import {
 
 import PresentationItem from '../entities/presentationItem';
 import { ItemDescriptor } from '../entities/presentationItem';
+import { buildTextPresentationItem } from '../entities/presentationItem';
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -182,11 +184,8 @@ function getSignMetadata(bsdm) {
 
   let appSignMetadata = clone(bsdmSignMetadata);
 
-  const videoModeItemDescriptor = new ItemDescriptor('textField', []);
-  const videoModeItem =
-    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), ['meta', 'videoMode'],
-      videoModeItemDescriptor);
-  appSignMetadata.videoMode = videoModeItem;
+  appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
+    ['meta', 'videoMode']);
 
   const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
     'XD1033', 'XD233',
