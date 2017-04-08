@@ -18,14 +18,6 @@ import PresentationItem from '../entities/presentationItem';
 
 export default class App extends Component {
 
-  componentDidMount() {
-    console.log("app.js::componentDidMount invoked");
-
-    this.divFieldKey = this.getRandom().toString();
-    this.textFieldKey = this.getRandom().toString();
-    this.textFieldId = this.getRandom().toString();
-  }
-
   browseForFile() {
     let self = this;
 
@@ -40,7 +32,7 @@ export default class App extends Component {
   getRandom() {
     const r0 = Math.random();
     const r1 = Math.trunc(r0 * 100000);
-    return r1;
+    return r1.toString();
   }
 
   openPresentation() {
@@ -99,8 +91,7 @@ export default class App extends Component {
   buildSelectFieldMenuItem(index, text) {
 
     return (
-      <MenuItem key={this.getRandom()} value={index} primaryText={text} disableAutoFocus={true}
-      />
+      <MenuItem key={this.getRandom()} value={index} primaryText={text} />
     );
   }
 
@@ -116,10 +107,6 @@ export default class App extends Component {
 
   // handleTextFieldChange(propKeys, event, newValue) {
   handleTextFieldChange(propKeys, _, newValue) {
-
-// losing focus
-// https://github.com/callemall/material-ui/issues/783
-// https://github.com/callemall/material-ui/issues/4387
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
@@ -139,9 +126,11 @@ export default class App extends Component {
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]] = selectedMenuItemValue;
+    prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
+
+    this.forceUpdate();
   }
 
   // handleCheckboxChange(propKeys, event, isInputChecked) {
@@ -165,7 +154,7 @@ export default class App extends Component {
       propValue = propValue[propKey];
     });
 
-    return propValue;
+    return propValue['value'];
   }
 
 
@@ -183,11 +172,11 @@ export default class App extends Component {
         const propValue = this.getPropValue(value.propKeys);
 
         return (
-          <div key={this.divFieldKey}>
+          <div key={this.getRandom()}>
             {keyLabel}
             <TextField
-              key={this.textFieldKey}
-              id={this.textFieldId}
+              key={this.getRandom()}
+              id={this.getRandom()}
               style={this.getTextEditInputFieldStyle()}
               inputStyle={this.getTextEditInputStyle()}
               value={propValue}
@@ -213,6 +202,7 @@ export default class App extends Component {
         );
       }
       else if (value.itemDescriptor.uiElementType === 'selectField') {
+
         const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
 
         const propValue = this.getPropValue(value.propKeys);
