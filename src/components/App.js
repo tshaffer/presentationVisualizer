@@ -43,6 +43,10 @@ export default class App extends Component {
     this.props.openPresentation(this.filePath.input.value);
   }
 
+  savePresentation() {
+    this.props.savePresentation(this.filePath.input.value);
+  }
+
   getDivStyle() {
     return {
       width: '1000px',
@@ -143,7 +147,8 @@ export default class App extends Component {
     }
     prop[propKeys[propKeys.length - 1]].value = isInputChecked;
 
-    console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
+    console.log('value that was set is: ',
+      this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
 
     this.forceUpdate();
   }
@@ -359,6 +364,10 @@ export default class App extends Component {
             label='Open Presentation'
             onTouchTap={self.openPresentation.bind(this)}
           />
+          <RaisedButton
+            label='Save Presentation'
+            onTouchTap={self.savePresentation.bind(this)}
+          />
           <br/>
           {this.renderPresentation()}
         </div>
@@ -369,6 +378,7 @@ export default class App extends Component {
 
 App.propTypes = {
   openPresentation: React.PropTypes.func.isRequired,
+  savePresentation: React.PropTypes.func.isRequired,
   presentation: React.PropTypes.object.isRequired
 };
 

@@ -37,7 +37,9 @@ import {
   MonitorOrientationTypeName,
   VideoConnectorTypeName,
   LiveVideoInputTypeName,
-  LiveVideoStandardTypeName
+  LiveVideoStandardTypeName,
+  dmUpdateSignProperties,
+  dmGetSignState,
 } from '@brightsign/bsdatamodel';
 
 import PresentationItem from '../entities/presentationItem';
@@ -71,6 +73,25 @@ export function openPresentation(path : string) {
       const autoplay = generateAutoplay(state.bsdm);
       dispatch(setAutoplay(autoplay));
     });
+  };
+}
+
+export function savePresentation(path : string) {
+
+  let state = null;
+
+  return (dispatch: Function, getState: Function) => {
+
+    // copy updated parameters from presentation to bsdm
+    state = getState();
+    const signParams = getSignParams(state.presentation.autoplay.BrightAuthor.meta);
+    dispatch(dmUpdateSignProperties(signParams));
+
+    // get updated bsdm and write to file
+    state = getState();
+    const presentation = dmGetSignState(state.bsdm);
+    const bpfStr = JSON.stringify(presentation, null, '\t');
+    fs.writeFileSync(path, bpfStr);
   };
 }
 
@@ -163,7 +184,8 @@ function getSignMetadata(bsdm) {
 
   const videoModeItemDescriptor = new ItemDescriptor('textField', []);
   const videoModeItem =
-    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), ['meta', 'videoMode'], videoModeItemDescriptor);
+    new PresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode), ['meta', 'videoMode'],
+      videoModeItemDescriptor);
   appSignMetadata.videoMode = videoModeItem;
 
   const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
@@ -187,7 +209,8 @@ function getSignMetadata(bsdm) {
 
   const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
   const alphabetizeVariableNamesItem =
-    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames, ['meta', 'alphabetizeVariableNames'],
+    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames,
+      ['meta', 'alphabetizeVariableNames'],
       alphabetizeVariableNamesDescriptor);
   appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
 
@@ -242,6 +265,47 @@ function getSignMetadata(bsdm) {
   appSignMetadata.beacons = [];
 
   return appSignMetadata;
+}
+
+function getSignParams(appSignMetadata) {
+  
+  let signParams = {};
+
+  signParams.id = appSignMetadata.id;
+  // signParams.name = appSignMetadata.name;
+  // signParams.videoMode = appSignMetadata.videoMode.value;
+  signParams.model = appSignMetadata.model.value;
+  signParams.monitorOrientation = appSignMetadata.monitorOrientation;
+  signParams.videoConnector = appSignMetadata.videoConnector;
+  signParams.deviceWebPageDisplay = appSignMetadata.deviceWebPageDisplay;
+  signParams.alphabetizeVariableNames = appSignMetadata.alphabetizeVariableNames.value;
+  signParams.delayScheduleChangeUntilMediaEndEvent = appSignMetadata.delayScheduleChangeUntilMediaEndEvent;
+  signParams.htmlEnableJavascriptConsole = appSignMetadata.htmlEnableJavascriptConsole;
+  signParams.backgroundScreenColor = appSignMetadata.backgroundScreenColor;
+  signParams.forceResolution = appSignMetadata.forceResolution;
+  signParams.tenBitColorEnabled = appSignMetadata.tenBitColorEnabled;
+  // monitor overscan
+  // ?gpio
+  // ?buttonPanels
+  // ?serialPortConfigurations
+  signParams.udpDestinationAddressType = appSignMetadata.udpDestinationAddressType;
+  signParams.udpDestinationAddress = appSignMetadata.udpDestinationAddress;
+  signParams.udpDestinationPort = appSignMetadata.udpDestinationPort;
+  signParams.udpReceiverPort = appSignMetadata.udpReceiverPort;
+  signParams.flipCoordinates = appSignMetadata.flipCoordinates;
+  signParams.touchCursorDisplayMode = appSignMetadata.touchCursorDisplayMode;
+  signParams.language = appSignMetadata.language;
+  signParams.languageKey = appSignMetadata.languageKey;
+  // ?audioConfiguration
+  signParams.inactivityTimeout = appSignMetadata.inactivityTimeout;
+  signParams.inactivityTime = appSignMetadata.inactivityTime;
+  signParams.autoCreateMediaCounterVariables = appSignMetadata.autoCreateMediaCounterVariables;
+  signParams.resetVariablesOnPresentationStart = appSignMetadata.resetVariablesOnPresentationStart;
+  signParams.networkedVariablesUpdateInterval = appSignMetadata.networkedVariablesUpdateInterval;
+  signParams.graphicsZOrder = appSignMetadata.graphicsZOrder;
+  signParams.isMosaic = appSignMetadata.isMosaic;
+
+  return signParams;
 }
 
 function getZoneMetadata(bsdm, zoneId) {

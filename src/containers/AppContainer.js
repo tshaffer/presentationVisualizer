@@ -1,7 +1,10 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { openPresentation } from '../store/presentation';
+import {
+  openPresentation,
+  savePresentation
+} from '../store/presentation';
 
 import App from '../components/App';
 
@@ -14,6 +17,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     openPresentation,
+    savePresentation,
   }, dispatch);
 };
 
