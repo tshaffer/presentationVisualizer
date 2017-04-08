@@ -42,9 +42,11 @@ import {
   dmGetSignState,
 } from '@brightsign/bsdatamodel';
 
-import PresentationItem from '../entities/presentationItem';
-import { ItemDescriptor } from '../entities/presentationItem';
-import { buildTextPresentationItem } from '../entities/presentationItem';
+import {
+  buildTextPresentationItem,
+  buildSelectFieldPresentationItem,
+  buildCheckboxPresentationItem
+} from '../entities/presentationItem';
 
 // ------------------------------------
 // Constants
@@ -187,31 +189,45 @@ function getSignMetadata(bsdm) {
   appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
     ['meta', 'videoMode']);
 
-  const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
-    'XD1033', 'XD233',
-    'XT1143', 'XT243',
-    'HD1022', 'HD222',
-    'XD1132', 'XD1032', 'XD232',
-    'FK1142', 'FK1042', 'FK242',
-    'HD1020', 'HD220', 'HD120', 'LS422', 'LS322',
-    'XD1230', 'XD1030', 'XD230',
-    'HD922', 'HD920', 'A915', 'HD917',
-    'HD972', 'HD970', 'AU320']);
+  appSignMetadata.model = buildSelectFieldPresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'],
+    ['HD1023', 'HS123', 'HD223', 'LS423',
+      'XD1033', 'XD233',
+      'XT1143', 'XT243',
+      'HD1022', 'HD222',
+      'XD1132', 'XD1032', 'XD232',
+      'FK1142', 'FK1042', 'FK242',
+      'HD1020', 'HD220', 'HD120', 'LS422', 'LS322',
+      'XD1230', 'XD1030', 'XD230',
+      'HD922', 'HD920', 'A915', 'HD917',
+      'HD972', 'HD970', 'AU320']);
 
-  const modelItem =
-    new PresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'], modelItemDescriptor);
-  appSignMetadata.model = modelItem;
+  // const modelItemDescriptor = new ItemDescriptor('selectField', ['HD1023', 'HS123', 'HD223', 'LS423',
+  //   'XD1033', 'XD233',
+  //   'XT1143', 'XT243',
+  //   'HD1022', 'HD222',
+  //   'XD1132', 'XD1032', 'XD232',
+  //   'FK1142', 'FK1042', 'FK242',
+  //   'HD1020', 'HD220', 'HD120', 'LS422', 'LS322',
+  //   'XD1230', 'XD1030', 'XD230',
+  //   'HD922', 'HD920', 'A915', 'HD917',
+  //   'HD972', 'HD970', 'AU320']);
+  //
+  // const modelItem =
+  //   new PresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'], modelItemDescriptor);
+  // appSignMetadata.model = modelItem;
 
   appSignMetadata.monitorOrientation = MonitorOrientationTypeName(bsdmSignMetadata.monitorOrientation);
   appSignMetadata.videoConnector = VideoConnectorTypeName(bsdmSignMetadata.videoConnector);
   appSignMetadata.deviceWebPageDisplay = DeviceWebPageDisplayName(bsdmSignMetadata.deviceWebPageDisplay);
 
-  const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
-  const alphabetizeVariableNamesItem =
-    new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames,
-      ['meta', 'alphabetizeVariableNames'],
-      alphabetizeVariableNamesDescriptor);
-  appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
+  appSignMetadata.alphabetizeVariableNames = buildCheckboxPresentationItem('alphabetizeVariableNames',
+    bsdmSignMetadata.alphabetizeVariableNames,['meta', 'alphabetizeVariableNames']);
+  // const alphabetizeVariableNamesDescriptor = new ItemDescriptor('checkBox', []);
+  // const alphabetizeVariableNamesItem =
+  //   new PresentationItem('alphabetizeVariableNames', bsdmSignMetadata.alphabetizeVariableNames,
+  //     ['meta', 'alphabetizeVariableNames'],
+  //     alphabetizeVariableNamesDescriptor);
+  // appSignMetadata.alphabetizeVariableNames = alphabetizeVariableNamesItem;
 
   appSignMetadata.delayScheduleChangeUntilMediaEndEvent = bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent;
   appSignMetadata.htmlEnableJavascriptConsole = bsdmSignMetadata.htmlEnableJavascriptConsole;
