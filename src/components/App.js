@@ -109,14 +109,12 @@ export default class App extends Component {
   }
 
 
-  // handleTextFieldChange(propKeys, event, newValue) {
   handleTextFieldChange(propKeys, _, newValue) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    // prop[propKeys[propKeys.length - 1]] = newValue;
     prop[propKeys[propKeys.length - 1]].value = newValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.videoMode.value);
@@ -124,14 +122,12 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  // handleSelectFieldChange(propKeys, event, selectedIndex, selectedMenuItemValue) {
   handleSelectFieldChange(propKeys, _, __, selectedMenuItemValue) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    // prop[propKeys[propKeys.length - 1]] = selectedMenuItemValue;
     prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.model.value);
@@ -139,14 +135,12 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  // handleCheckboxChange(propKeys, event, isInputChecked) {
   handleCheckboxChange(propKeys, _, isInputChecked) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    // prop[propKeys[propKeys.length - 1]] = isInputChecked;
     prop[propKeys[propKeys.length - 1]].value = isInputChecked;
 
     console.log('value that was set is: ', this.props.presentation.autoplay.BrightAuthor.meta.alphabetizeVariableNames.value);
@@ -161,7 +155,6 @@ export default class App extends Component {
       propValue = propValue[propKey];
     });
 
-    // return propValue;
     return propValue['value'];
   }
 
