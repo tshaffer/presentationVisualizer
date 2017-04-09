@@ -62,12 +62,48 @@ export function buildCheckboxPresentationItem(
   parameterValue : Object,
   propertyKeys : Array<string>) {
 
-  if (typeof(parameterValue) !== 'boolean') {
-    debugger;
-  }
   const parameterItemDescriptor = new ItemDescriptor('checkBox');
   const selectFieldPresentationItem =
     new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);
   return selectFieldPresentationItem;
 }
 
+export function buildSignPropertyTextPresentationItem(
+  bsdmSignMetadata : Object,
+  parameterName : string) {
+  const parameterItemDescriptor = new ItemDescriptor('textField');
+  const textPresentationItem =
+    new PresentationItem(
+      parameterName,
+      bsdmSignMetadata[parameterName],
+      ['meta', parameterName],
+      parameterItemDescriptor);
+  return textPresentationItem;
+}
+
+export function buildSignPropertyCheckboxPresentationItem(
+  bsdmSignMetadata : Object,
+  parameterName : string) {
+  const parameterItemDescriptor = new ItemDescriptor('checkBox');
+  const checkboxPresentationItem =
+    new PresentationItem(
+      parameterName,
+      bsdmSignMetadata[parameterName],
+      ['meta', parameterName],
+      parameterItemDescriptor);
+  return checkboxPresentationItem;
+}
+
+export function buildSignPropertySelectFieldPresentationItem(
+  bsdmSignMetadata : Object,
+  parameterName : string,
+  dropDownValues: Array<Object>) {
+  const parameterItemDescriptor = new ItemDescriptor('selectField', dropDownValues);
+  const selectFieldPresentationItem =
+    new PresentationItem(
+      parameterName,
+      bsdmSignMetadata[parameterName],
+      ['meta', parameterName],
+      parameterItemDescriptor);
+  return selectFieldPresentationItem;
+}

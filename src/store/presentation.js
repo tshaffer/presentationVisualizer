@@ -38,8 +38,11 @@ import {
 
 import {
   buildTextPresentationItem,
+  buildSignPropertyTextPresentationItem,
   buildSelectFieldPresentationItem,
-  buildCheckboxPresentationItem
+  buildCheckboxPresentationItem,
+  buildSignPropertyCheckboxPresentationItem,
+  buildSignPropertySelectFieldPresentationItem,
 } from '../entities/presentationItem';
 
 // ------------------------------------
@@ -181,10 +184,11 @@ function getSignMetadata(bsdm) {
   let appSignMetadata = clone(bsdmSignMetadata);
 
   // TODO
-  appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
-    ['meta', 'videoMode']);
+  // appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
+  //   ['meta', 'videoMode']);
+  appSignMetadata.videoMode = buildSignPropertyTextPresentationItem(bsdmSignMetadata, 'videoMode');
 
-  appSignMetadata.model = buildSelectFieldPresentationItem('model', bsdmSignMetadata.model, ['meta', 'model'],
+  appSignMetadata.model = buildSignPropertySelectFieldPresentationItem(bsdmSignMetadata, 'model',
     ['HD1023', 'HS123', 'HD223', 'LS423',
       'XD1033', 'XD233',
       'XT1143', 'XT243',
@@ -196,10 +200,8 @@ function getSignMetadata(bsdm) {
       'HD922', 'HD920', 'A915', 'HD917',
       'HD972', 'HD970', 'AU320']);
 
-  appSignMetadata.monitorOrientation = buildSelectFieldPresentationItem(
-    'monitorOrientation',
-    bsdmSignMetadata.monitorOrientation,
-    ['meta', 'monitorOrientation'],
+  appSignMetadata.monitorOrientation = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata, 'monitorOrientation',
     [
       'Landscape',
       'Portrait__bottom_on_left',
@@ -229,10 +231,9 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.alphabetizeVariableNames = buildCheckboxPresentationItem(
-    'alphabetizeVariableNames',
-    bsdmSignMetadata.alphabetizeVariableNames,
-    ['meta', 'alphabetizeVariableNames']);
+  appSignMetadata.alphabetizeVariableNames = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'alphabetizeVariableNames');
 
   appSignMetadata.delayScheduleChangeUntilMediaEndEvent = buildCheckboxPresentationItem(
     'delayScheduleChangeUntilMediaEndEvent',
@@ -256,10 +257,9 @@ function getSignMetadata(bsdm) {
     bsdmSignMetadata.forceResolution,
     ['meta', 'forceResolution']);
 
-  appSignMetadata.tenBitColorEnabled = buildCheckboxPresentationItem(
-    'tenBitColorEnabled',
-    bsdmSignMetadata.tenBitColorEnabled,
-    ['meta', 'tenBitColorEnabled']);
+  appSignMetadata.tenBitColorEnabled = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'tenBitColorEnabled');
 
   // TODO
   // appSignMetadata.monitorOverscan = 'noOverscan';   // TODO not in bsdm
