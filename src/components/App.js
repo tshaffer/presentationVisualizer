@@ -6,11 +6,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-// import Checkbox from 'material-ui/Checkbox';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+// import SelectField from 'material-ui/SelectField';
+// import MenuItem from 'material-ui/MenuItem';
 
 import BooleanInputContainer from '../containers/booleanInputContainer';
+import TextInputContainer from '../containers/textInputContainer';
+import ListInputContainer from '../containers/listInputContainer';
 
 const {dialog} = require('electron').remote;
 
@@ -74,21 +75,21 @@ export default class App extends Component {
     };
   }
 
-  getTextEditInputFieldStyle() {
-    return {
-      marginLeft: '8px',
-      height: '28px',
-      width: '200px',
-      fontSize: '12px',
-      display: 'inline-block'
-    };
-  }
-
-  getTextEditInputStyle() {
-    return {
-      display: 'inline-block'
-    };
-  }
+  // getTextEditInputFieldStyle() {
+  //   return {
+  //     marginLeft: '8px',
+  //     height: '28px',
+  //     width: '200px',
+  //     fontSize: '12px',
+  //     display: 'inline-block'
+  //   };
+  // }
+  //
+  // getTextEditInputStyle() {
+  //   return {
+  //     display: 'inline-block'
+  //   };
+  // }
 
   // getCheckBoxStyle() {
   //   return {
@@ -96,44 +97,44 @@ export default class App extends Component {
   //   };
   // }
   //
-  buildSelectFieldMenuItem(index : number, text : string) {
+  // buildSelectFieldMenuItem(index : number, text : string) {
+  //
+  //   return (
+  //     <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
+  //   );
+  // }
+  //
+  // buildSelectFieldMenuItems(values : Array<string>) {
+  //
+  //   const menuItems = values.map( (menuItemText, index) => {
+  //     return this.buildSelectFieldMenuItem(index, menuItemText);
+  //   });
+  //
+  //   return menuItems;
+  // }
 
-    return (
-      <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
-    );
-  }
 
-  buildSelectFieldMenuItems(values : Array<string>) {
+  // handleTextFieldChange(propKeys : Array<string>, _ : Object, newValue : string) {
+  //
+  //   let prop = this.props.presentation.autoplay.BrightAuthor;
+  //   for (let i = 0; i < propKeys.length - 1; i++) {
+  //     prop = prop[propKeys[i]];
+  //   }
+  //   prop[propKeys[propKeys.length - 1]].value = newValue;
+  //
+  //   this.forceUpdate();
+  // }
 
-    const menuItems = values.map( (menuItemText, index) => {
-      return this.buildSelectFieldMenuItem(index, menuItemText);
-    });
-
-    return menuItems;
-  }
-
-
-  handleTextFieldChange(propKeys : Array<string>, _ : Object, newValue : string) {
-
-    let prop = this.props.presentation.autoplay.BrightAuthor;
-    for (let i = 0; i < propKeys.length - 1; i++) {
-      prop = prop[propKeys[i]];
-    }
-    prop[propKeys[propKeys.length - 1]].value = newValue;
-
-    this.forceUpdate();
-  }
-
-  handleSelectFieldChange(propKeys : Array<string>, _ : Object, __ : Object, selectedMenuItemValue : string) {
-
-    let prop = this.props.presentation.autoplay.BrightAuthor;
-    for (let i = 0; i < propKeys.length - 1; i++) {
-      prop = prop[propKeys[i]];
-    }
-    prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
-
-    this.forceUpdate();
-  }
+  // handleSelectFieldChange(propKeys : Array<string>, _ : Object, __ : Object, selectedMenuItemValue : string) {
+  //
+  //   let prop = this.props.presentation.autoplay.BrightAuthor;
+  //   for (let i = 0; i < propKeys.length - 1; i++) {
+  //     prop = prop[propKeys[i]];
+  //   }
+  //   prop[propKeys[propKeys.length - 1]].value = selectedMenuItemValue;
+  //
+  //   this.forceUpdate();
+  // }
 
   // handleCheckboxChange(propKeys : Array<string>, _ : Object, isInputChecked : boolean) {
   //
@@ -147,14 +148,14 @@ export default class App extends Component {
   // }
 
 
-  getPropValue(propKeys : Array<string>) {
-    let propValue = this.props.presentation.autoplay.BrightAuthor;
-    propKeys.forEach( (propKey) => {
-      propValue = propValue[propKey];
-    });
-
-    return propValue['value'];
-  }
+  // getPropValue(propKeys : Array<string>) {
+  //   let propValue = this.props.presentation.autoplay.BrightAuthor;
+  //   propKeys.forEach( (propKey) => {
+  //     propValue = propValue[propKey];
+  //   });
+  //
+  //   return propValue['value'];
+  // }
 
 
   renderPropValue(propValue : Object) {
@@ -168,20 +169,27 @@ export default class App extends Component {
     if (value instanceof PresentationItem) {
       if (value.itemDescriptor.uiElementType === 'textField') {
 
-        const propValue = this.getPropValue(value.propKeys);
+        // {/*const propValue = this.getPropValue(value.propKeys);*/}
+        //
+        // {/*return (*/}
+        //   {/*<div key={this.getRandom()}>*/}
+        //     {keyLabel}
+        //     <TextField
+        //       id={this.getRandom().toString()}
+        //       style={this.getTextEditInputFieldStyle()}
+        //       inputStyle={this.getTextEditInputStyle()}
+        //       value={propValue}
+        //       onChange={this.handleTextFieldChange.bind(this, value.propKeys)}
+        //     />
+        //   </div>
+        // );
 
         return (
-          <div key={this.getRandom()}>
-            {keyLabel}
-            <TextField
-              id={this.getRandom().toString()}
-              style={this.getTextEditInputFieldStyle()}
-              inputStyle={this.getTextEditInputStyle()}
-              value={propValue}
-              onChange={this.handleTextFieldChange.bind(this, value.propKeys)}
-            />
-          </div>
+          <TextInputContainer
+            propValue={propValue}
+          />
         );
+
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
 
@@ -209,22 +217,27 @@ export default class App extends Component {
       }
       else if (value.itemDescriptor.uiElementType === 'selectField') {
 
-        const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
-
-        const propValue = this.getPropValue(value.propKeys);
-
         return (
-          <div>
-            <SelectField
-              floatingLabelText={keyLabel}
-              value={propValue}
-              onChange={this.handleSelectFieldChange.bind(this, value.propKeys)}
-              key={this.getRandom()}
-            >
-              {selectFieldMenuItems}
-            </SelectField>
-          </div>
+          <ListInputContainer
+            propValue={propValue}
+          />
         );
+        // const selectFieldMenuItems = this.buildSelectFieldMenuItems(value.itemDescriptor.dropDownValues);
+        //
+        // const propValue = this.getPropValue(value.propKeys);
+        //
+        // return (
+        //   <div>
+        //     <SelectField
+        //       floatingLabelText={keyLabel}
+        //       value={propValue}
+        //       onChange={this.handleSelectFieldChange.bind(this, value.propKeys)}
+        //       key={this.getRandom()}
+        //     >
+        //       {selectFieldMenuItems}
+        //     </SelectField>
+        //   </div>
+        // );
       }
     }
     else if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
