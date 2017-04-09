@@ -442,7 +442,7 @@ function getSignParams(appSignMetadata) {
 
   signParams.id = appSignMetadata.id;
   // signParams.name = appSignMetadata.name;
-  // signParams.videoMode = appSignMetadata.videoMode.value;
+  signParams.videoMode = appSignMetadata.videoMode.value;
   signParams.model = appSignMetadata.model.value;
   signParams.monitorOrientation = appSignMetadata.monitorOrientation.value;
   signParams.videoConnector = appSignMetadata.videoConnector.value;
