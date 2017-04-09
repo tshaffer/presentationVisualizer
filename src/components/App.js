@@ -6,9 +6,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
+// import Checkbox from 'material-ui/Checkbox';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
+import BooleanInputContainer from '../containers/booleanInputContainer';
 
 const {dialog} = require('electron').remote;
 
@@ -88,12 +90,12 @@ export default class App extends Component {
     };
   }
 
-  getCheckBoxStyle() {
-    return {
-      marginLeft: '2px'
-    };
-  }
-
+  // getCheckBoxStyle() {
+  //   return {
+  //     marginLeft: '2px'
+  //   };
+  // }
+  //
   buildSelectFieldMenuItem(index : number, text : string) {
 
     return (
@@ -133,16 +135,16 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  handleCheckboxChange(propKeys : Array<string>, _ : Object, isInputChecked : boolean) {
-
-    let prop = this.props.presentation.autoplay.BrightAuthor;
-    for (let i = 0; i < propKeys.length - 1; i++) {
-      prop = prop[propKeys[i]];
-    }
-    prop[propKeys[propKeys.length - 1]].value = isInputChecked;
-
-    this.forceUpdate();
-  }
+  // handleCheckboxChange(propKeys : Array<string>, _ : Object, isInputChecked : boolean) {
+  //
+  //   let prop = this.props.presentation.autoplay.BrightAuthor;
+  //   for (let i = 0; i < propKeys.length - 1; i++) {
+  //     prop = prop[propKeys[i]];
+  //   }
+  //   prop[propKeys[propKeys.length - 1]].value = isInputChecked;
+  //
+  //   this.forceUpdate();
+  // }
 
 
   getPropValue(propKeys : Array<string>) {
@@ -183,18 +185,26 @@ export default class App extends Component {
       }
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
 
-        const propValue = this.getPropValue(value.propKeys);
+        // const propValue = this.getPropValue(value.propKeys);
+
+        // return (
+        //   <div key={this.getRandom()}>
+        //     <Checkbox
+        //       id={this.getRandom().toString()}
+        //       style={this.getCheckBoxStyle()}
+        //       label={keyLabel}
+        //       checked={propValue}
+        //       onCheck={this.handleCheckboxChange.bind(this, value.propKeys)}
+        //     />
+        //   </div>
+        // );
+
+        // BrightAuthor={this.props.presentation.autoplay.BrightAuthor}
 
         return (
-          <div key={this.getRandom()}>
-            <Checkbox
-              id={this.getRandom().toString()}
-              style={this.getCheckBoxStyle()}
-              label={keyLabel}
-              checked={propValue}
-              onCheck={this.handleCheckboxChange.bind(this, value.propKeys)}
-            />
-          </div>
+          <BooleanInputContainer
+            propValue={propValue}
+          />
         );
       }
       else if (value.itemDescriptor.uiElementType === 'selectField') {
