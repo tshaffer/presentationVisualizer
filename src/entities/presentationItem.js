@@ -23,11 +23,11 @@ export default class PresentationItem {
 
 class ItemDescriptor {
   uiElementType: string;
-  dropDownValues: Array<Object>;
+  dropDownValues: Array<string>;
 
   constructor(
     uiElementType: string,
-    dropDownValues: Array<Object>
+    dropDownValues: Array<string> = []
   ) {
     this.uiElementType = uiElementType;
     this.dropDownValues = dropDownValues;
@@ -63,7 +63,7 @@ export function buildSignPropertyCheckboxPresentationItem(
 export function buildSignPropertySelectFieldPresentationItem(
   bsdmSignMetadata : Object,
   parameterName : string,
-  dropDownValues: Array<Object>) {
+  dropDownValues: Array<string>) {
   const parameterItemDescriptor = new ItemDescriptor('selectField', dropDownValues);
   const selectFieldPresentationItem =
     new PresentationItem(

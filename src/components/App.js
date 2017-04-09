@@ -22,6 +22,8 @@ export default class App extends Component {
     console.log("app.js::componentDidMount invoked");
   }
 
+  filePath : Object;
+
   browseForFile() {
     let self = this;
 
@@ -92,18 +94,14 @@ export default class App extends Component {
     };
   }
 
-  handleClick(propName, propValue) {
-    console.log('handleClick invoked with parameters: ', propName, ' ', propValue);
-  }
-
-  buildSelectFieldMenuItem(index, text) {
+  buildSelectFieldMenuItem(index : number, text : string) {
 
     return (
       <MenuItem key={this.getRandom()} value={index} primaryText={text}/>
     );
   }
 
-  buildSelectFieldMenuItems(values) {
+  buildSelectFieldMenuItems(values : Array<string>) {
 
     const menuItems = values.map( (menuItemText, index) => {
       return this.buildSelectFieldMenuItem(index, menuItemText);
@@ -113,7 +111,7 @@ export default class App extends Component {
   }
 
 
-  handleTextFieldChange(propKeys, _, newValue) {
+  handleTextFieldChange(propKeys : Array<string>, _ : Object, newValue : string) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
@@ -124,7 +122,7 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  handleSelectFieldChange(propKeys, _, __, selectedMenuItemValue) {
+  handleSelectFieldChange(propKeys : Array<string>, _ : Object, __ : Object, selectedMenuItemValue : string) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
@@ -135,7 +133,7 @@ export default class App extends Component {
     this.forceUpdate();
   }
 
-  handleCheckboxChange(propKeys, _, isInputChecked) {
+  handleCheckboxChange(propKeys : Array<string>, _ : Object, isInputChecked : boolean) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
@@ -147,7 +145,7 @@ export default class App extends Component {
   }
 
 
-  getPropValue(propKeys) {
+  getPropValue(propKeys : Array<string>) {
     let propValue = this.props.presentation.autoplay.BrightAuthor;
     propKeys.forEach( (propKey) => {
       propValue = propValue[propKey];
@@ -157,7 +155,7 @@ export default class App extends Component {
   }
 
 
-  renderPropValue(propValue) {
+  renderPropValue(propValue : Object) {
 
     const propName = propValue.propName;
 
@@ -222,7 +220,7 @@ export default class App extends Component {
     else if (typeof(value) === 'string' || typeof(value) === 'number' || typeof(value) === 'boolean') {
       const valueLabel = <span className="info">{value.toString()}</span>;
       return (
-        <div key={this.getRandom()} onClick={this.handleClick.bind(this, propName, value)}>
+        <div key={this.getRandom()}>
           {keyLabel}: {valueLabel}
         </div>
       );
@@ -242,7 +240,7 @@ export default class App extends Component {
     }
   }
 
-  getTreeViewItem(treeViewLabel, allPropValues) {
+  getTreeViewItem(treeViewLabel, allPropValues : Array<Object>) {
     return (
       <TreeView key={this.getRandom()} nodeLabel={treeViewLabel} defaultCollapsed={false}>
         {allPropValues.map( (propValue) => {
@@ -252,7 +250,7 @@ export default class App extends Component {
     );
   }
 
-  getEmbeddedJsx(embeddedTreeNode) {
+  getEmbeddedJsx(embeddedTreeNode : Object) {
 
     const propName = embeddedTreeNode.propName;
     const treeViewLabel = <span className="node">{propName}</span>;
@@ -262,7 +260,7 @@ export default class App extends Component {
     );
   }
 
-  getTreeView(treeNodes) {
+  getTreeView(treeNodes : Array<Object>) {
     return (
       <div>
         {treeNodes.map( (treeNode) => {
@@ -281,7 +279,7 @@ export default class App extends Component {
     );
   }
 
-  buildTreeView(tree) {
+  buildTreeView(tree : Array<Object>) {
 
     const treeView = this.getTreeView(tree);
 
@@ -293,7 +291,7 @@ export default class App extends Component {
   }
 
 
-  buildTree(nodeName, nodeIn) {
+  buildTree(nodeName : string, nodeIn : Object) {
 
     // console.log('nodeIn: ', nodeIn);
 
