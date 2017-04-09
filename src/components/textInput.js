@@ -33,9 +33,7 @@ export default class BooleanInput extends Component {
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
-    prop[propKeys[propKeys.length - 1]].value = newValue;
-
-    this.forceUpdate();
+    this.props.setPresentationItemValue(prop[propKeys[propKeys.length - 1]], newValue);
   }
 
   getPropValue(propKeys : Array<string>) {
@@ -73,6 +71,7 @@ export default class BooleanInput extends Component {
 
 BooleanInput.propTypes = {
   presentation: React.PropTypes.object.isRequired,
+  setPresentationItemValue: React.PropTypes.func.isRequired,
   propValue: React.PropTypes.object.isRequired
 };
 

@@ -45,7 +45,7 @@ import {
 // Constants
 // ------------------------------------
 export const SET_AUTOPLAY = 'SET_AUTOPLAY';
-
+export const SET_PRESENTATION_ITEM_VALUE = 'SET_PRESENTATION_ITEM_VALUE';
 
 // ------------------------------------
 // Actions
@@ -55,6 +55,17 @@ export function setAutoplay(autoplay : Object){
   return {
     type: SET_AUTOPLAY,
     payload: autoplay
+  };
+}
+
+export function setPresentationItemValue(presentationItem : Object, value : Object){
+
+  return {
+    type: SET_PRESENTATION_ITEM_VALUE,
+    payload: {
+      presentationItem,
+      value
+    }
   };
 }
 
@@ -111,6 +122,15 @@ export default function(state : Object = initialState, action : Object) {
       };
 
       console.log(newState);
+      return newState;
+    }
+
+    case SET_PRESENTATION_ITEM_VALUE: {
+
+      console.log(action.payload);
+
+      let newState = Object.assign({}, state);
+      newState.autoplay.BrightAuthor.meta[action.payload.presentationItem.name].value = action.payload.value;
       return newState;
     }
   }

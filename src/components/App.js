@@ -90,6 +90,7 @@ export default class App extends Component {
       else if (value.itemDescriptor.uiElementType === 'checkBox') {
         return (
           <BooleanInputContainer
+            key={this.getRandom()}
             propValue={propValue}
           />
         );
