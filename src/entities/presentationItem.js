@@ -34,40 +34,6 @@ class ItemDescriptor {
   }
 }
 
-export function buildTextPresentationItem(
-  parameterName : string,
-  parameterValue : Object,
-  propertyKeys : Array<string>) {
-
-  const parameterItemDescriptor = new ItemDescriptor('textField');
-  const textPresentationItem =
-    new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);
-  return textPresentationItem;
-}
-
-export function buildSelectFieldPresentationItem(
-  parameterName : string,
-  parameterValue : Object,
-  propertyKeys : Array<string>,
-  dropDownValues: Array<Object>) {
-
-  const parameterItemDescriptor = new ItemDescriptor('selectField', dropDownValues);
-  const selectFieldPresentationItem =
-    new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);
-  return selectFieldPresentationItem;
-}
-
-export function buildCheckboxPresentationItem(
-  parameterName : string,
-  parameterValue : Object,
-  propertyKeys : Array<string>) {
-
-  const parameterItemDescriptor = new ItemDescriptor('checkBox');
-  const selectFieldPresentationItem =
-    new PresentationItem(parameterName, parameterValue, propertyKeys, parameterItemDescriptor);
-  return selectFieldPresentationItem;
-}
-
 export function buildSignPropertyTextPresentationItem(
   bsdmSignMetadata : Object,
   parameterName : string) {
