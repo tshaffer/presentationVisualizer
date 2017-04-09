@@ -183,6 +183,9 @@ export default class App extends Component {
     prop[propKeys[propKeys.length - 1]].value = newValue;
 
     this.forceUpdate();
+
+    const vm = document.getElementById('videoMode');
+    vm.focus();
   }
 
   renderPropValue(propValue) {
@@ -201,7 +204,7 @@ export default class App extends Component {
         return (
           <div key={this.getRandom()}>
             {keyLabel}
-            <input type='text' value={propValue} onChange={this.handleChange.bind(this, value.propKeys)}/>
+            <input id={propName} type='text' value={propValue} onChange={this.handleChange.bind(this, value.propKeys)}/>
           </div>
         );
       }
