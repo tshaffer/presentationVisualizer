@@ -18,7 +18,6 @@ import {
   dmGetTransitionIdsForEvent,
   dmGetTransitionById,
   ContentItemType,
-  VideoModeName,
   TransitionTypeName,
   EventTypeName,
   dmGetEventById,
@@ -37,10 +36,7 @@ import {
 } from '@brightsign/bsdatamodel';
 
 import {
-  buildTextPresentationItem,
   buildSignPropertyTextPresentationItem,
-  buildSelectFieldPresentationItem,
-  buildCheckboxPresentationItem,
   buildSignPropertyCheckboxPresentationItem,
   buildSignPropertySelectFieldPresentationItem,
 } from '../entities/presentationItem';
@@ -184,8 +180,6 @@ function getSignMetadata(bsdm) {
   let appSignMetadata = clone(bsdmSignMetadata);
 
   // TODO
-  // appSignMetadata.videoMode = buildTextPresentationItem('videoMode', VideoModeName(bsdmSignMetadata.videoMode),
-  //   ['meta', 'videoMode']);
   appSignMetadata.videoMode = buildSignPropertyTextPresentationItem(bsdmSignMetadata, 'videoMode');
 
   appSignMetadata.model = buildSignPropertySelectFieldPresentationItem(bsdmSignMetadata, 'model',
@@ -209,10 +203,9 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.videoConnector = buildSelectFieldPresentationItem(
+  appSignMetadata.videoConnector = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata,
     'videoConnector',
-    bsdmSignMetadata.videoConnector,
-    ['meta', 'videoConnector'],
     [
       'HDMI',
       'VGA',
@@ -220,10 +213,9 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.deviceWebPageDisplay = buildSelectFieldPresentationItem(
+  appSignMetadata.deviceWebPageDisplay = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata,
     'deviceWebPageDisplay',
-    bsdmSignMetadata.deviceWebPageDisplay,
-    ['meta', 'deviceWebPageDisplay'],
     [
       'None',
       'Standard',
@@ -235,15 +227,13 @@ function getSignMetadata(bsdm) {
     bsdmSignMetadata,
     'alphabetizeVariableNames');
 
-  appSignMetadata.delayScheduleChangeUntilMediaEndEvent = buildCheckboxPresentationItem(
-    'delayScheduleChangeUntilMediaEndEvent',
-    bsdmSignMetadata.delayScheduleChangeUntilMediaEndEvent,
-    ['meta', 'delayScheduleChangeUntilMediaEndEvent']);
+  appSignMetadata.delayScheduleChangeUntilMediaEndEvent = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'delayScheduleChangeUntilMediaEndEvent');
 
-  appSignMetadata.htmlEnableJavascriptConsole = buildCheckboxPresentationItem(
-    'htmlEnableJavascriptConsole',
-    bsdmSignMetadata.htmlEnableJavascriptConsole,
-    ['meta', 'htmlEnableJavascriptConsole']);
+  appSignMetadata.htmlEnableJavascriptConsole = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'htmlEnableJavascriptConsole');
 
   // TODO
   // appSignMetadata.backgroundScreenColor = bsdmSignMetadata.backgroundScreenColor;
@@ -252,10 +242,9 @@ function getSignMetadata(bsdm) {
   // appSignMetadata.backgroundScreenColor.g = 0;
   // appSignMetadata.backgroundScreenColor.b = 0;
 
-  appSignMetadata.forceResolution = buildCheckboxPresentationItem(
-    'forceResolution',
-    bsdmSignMetadata.forceResolution,
-    ['meta', 'forceResolution']);
+  appSignMetadata.forceResolution = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'forceResolution');
 
   appSignMetadata.tenBitColorEnabled = buildSignPropertyCheckboxPresentationItem(
     bsdmSignMetadata,
@@ -270,10 +259,9 @@ function getSignMetadata(bsdm) {
 
   appSignMetadata.serialPortConfigurations = bsdmSignMetadata.serialPortConfigurations;
 
-  appSignMetadata.udpDestinationAddressType = buildSelectFieldPresentationItem(
+  appSignMetadata.udpDestinationAddressType = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata,
     'udpDestinationAddressType',
-    bsdmSignMetadata.udpDestinationAddressType,
-    ['meta', 'udpDestinationAddressType'],
     [
       'IPAddress',
       'LocalSubnet',
@@ -282,28 +270,25 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.udpDestinationAddress = buildTextPresentationItem(
-    'udpDestinationAddress',
-    bsdmSignMetadata.udpDestinationAddress,
-    ['meta', 'udpDestinationAddress']);
+  appSignMetadata.udpDestinationAddress = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'udpDestinationAddress');
 
-  appSignMetadata.udpDestinationPort = buildTextPresentationItem(
-    'udpDestinationPort',
-    bsdmSignMetadata.udpDestinationPort,
-    ['meta', 'udpDestinationPort']);
+  appSignMetadata.udpDestinationPort = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'udpDestinationPort');
   
-  appSignMetadata.udpReceiverPort = buildTextPresentationItem('udpReceiverPort', bsdmSignMetadata.udpReceiverPort,
-    ['meta', 'udpReceiverPort']);
+  appSignMetadata.udpReceiverPort = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'udpReceiverPort');
 
-  appSignMetadata.flipCoordinates = buildCheckboxPresentationItem(
-    'flipCoordinates',
-    bsdmSignMetadata.flipCoordinates,
-    ['meta', 'flipCoordinates']);
+  appSignMetadata.flipCoordinates = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'flipCoordinates');
   
-  appSignMetadata.touchCursorDisplayMode = buildSelectFieldPresentationItem(
+  appSignMetadata.touchCursorDisplayMode = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata,
     'touchCursorDisplayMode',
-    bsdmSignMetadata.touchCursorDisplayMode,
-    ['meta', 'touchCursorDisplayMode'],
     [
       'Disabled',
       'Auto',
@@ -311,40 +296,39 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.language = buildTextPresentationItem('language', bsdmSignMetadata.language,
-    ['meta', 'language']);
+  appSignMetadata.language = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'language');
 
-  appSignMetadata.languageKey = buildTextPresentationItem('languageKey', bsdmSignMetadata.languageKey,
-    ['meta', 'languageKey']);
+  appSignMetadata.languageKey = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'languageKey');
 
   appSignMetadata.audioConfiguration = bsdmSignMetadata.audioConfiguration;
 
-  appSignMetadata.inactivityTimeout = buildCheckboxPresentationItem(
-    'inactivityTimeout',
-    bsdmSignMetadata.inactivityTimeout,
-    ['meta', 'inactivityTimeout']);
+  appSignMetadata.inactivityTimeout = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'inactivityTimeout');
 
-  appSignMetadata.inactivityTime = buildTextPresentationItem('inactivityTime', bsdmSignMetadata.inactivityTime,
-    ['meta', 'inactivityTime']);
+  appSignMetadata.inactivityTime = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'inactivityTime');
 
-  appSignMetadata.autoCreateMediaCounterVariables = buildCheckboxPresentationItem(
-    'autoCreateMediaCounterVariables',
-    bsdmSignMetadata.autoCreateMediaCounterVariables,
-    ['meta', 'autoCreateMediaCounterVariables']);
+  appSignMetadata.autoCreateMediaCounterVariables = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'autoCreateMediaCounterVariables');
 
-  appSignMetadata.resetVariablesOnPresentationStart = buildCheckboxPresentationItem(
-    'resetVariablesOnPresentationStart',
-    bsdmSignMetadata.resetVariablesOnPresentationStart,
-    ['meta', 'resetVariablesOnPresentationStart']);
+  appSignMetadata.resetVariablesOnPresentationStart = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'resetVariablesOnPresentationStart');
 
-  appSignMetadata.networkedVariablesUpdateInterval = buildTextPresentationItem(
-    'networkedVariablesUpdateInterval', bsdmSignMetadata.networkedVariablesUpdateInterval,
-    ['meta', 'networkedVariablesUpdateInterval']);
+  appSignMetadata.networkedVariablesUpdateInterval = buildSignPropertyTextPresentationItem(
+    bsdmSignMetadata,
+    'networkedVariablesUpdateInterval');
 
-  appSignMetadata.graphicsZOrder = buildSelectFieldPresentationItem(
+  appSignMetadata.graphicsZOrder = buildSignPropertySelectFieldPresentationItem(
+    bsdmSignMetadata,
     'graphicsZOrder',
-    bsdmSignMetadata.graphicsZOrder,
-    ['meta', 'graphicsZOrder'],
     [
       'Back',
       'Middle',
@@ -352,10 +336,9 @@ function getSignMetadata(bsdm) {
     ]
   );
 
-  appSignMetadata.isMosaic = buildCheckboxPresentationItem(
-    'isMosaic',
-    bsdmSignMetadata.isMosaic,
-    ['meta', 'isMosaic']);
+  appSignMetadata.isMosaic = buildSignPropertyCheckboxPresentationItem(
+    bsdmSignMetadata,
+    'isMosaic');
 
 
   // not part of metadata
