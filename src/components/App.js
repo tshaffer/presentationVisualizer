@@ -113,12 +113,13 @@ export default class App extends Component {
   }
 
 
-  handleTextFieldChange(propKeys, _, newValue) {
+  handleTextFieldChange(propKeys, newValue) {
 
     let prop = this.props.presentation.autoplay.BrightAuthor;
     for (let i = 0; i < propKeys.length - 1; i++) {
       prop = prop[propKeys[i]];
     }
+
     prop[propKeys[propKeys.length - 1]].value = newValue;
 
     this.forceUpdate();
@@ -157,6 +158,20 @@ export default class App extends Component {
   }
 
 
+  /*
+   <TextField
+   id={this.getRandom().toString()}
+   style={this.getTextEditInputFieldStyle()}
+   inputStyle={this.getTextEditInputStyle()}
+   value={propValue}
+   onChange={this.handleTextFieldChange.bind(this, value.propKeys)}
+   />
+   */
+
+  handleChange(event) {
+    console.log(event.target.value);
+  }
+
   renderPropValue(propValue) {
 
     const propName = propValue.propName;
@@ -173,13 +188,7 @@ export default class App extends Component {
         return (
           <div key={this.getRandom()}>
             {keyLabel}
-            <TextField
-              id={this.getRandom().toString()}
-              style={this.getTextEditInputFieldStyle()}
-              inputStyle={this.getTextEditInputStyle()}
-              value={propValue}
-              onChange={this.handleTextFieldChange.bind(this, value.propKeys)}
-            />
+            <input type='text' value={propValue} onChange={this.handleChange.bind(this)}/>
           </div>
         );
       }
