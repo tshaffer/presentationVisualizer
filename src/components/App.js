@@ -168,8 +168,21 @@ export default class App extends Component {
    />
    */
 
-  handleChange(event) {
+  handleChange(propKeys, event) {
+
+    console.log(propKeys);
     console.log(event.target.value);
+
+    const newValue = event.target.value;
+
+    let prop = this.props.presentation.autoplay.BrightAuthor;
+    for (let i = 0; i < propKeys.length - 1; i++) {
+      prop = prop[propKeys[i]];
+    }
+
+    prop[propKeys[propKeys.length - 1]].value = newValue;
+
+    this.forceUpdate();
   }
 
   renderPropValue(propValue) {
@@ -188,7 +201,7 @@ export default class App extends Component {
         return (
           <div key={this.getRandom()}>
             {keyLabel}
-            <input type='text' value={propValue} onChange={this.handleChange.bind(this)}/>
+            <input type='text' value={propValue} onChange={this.handleChange.bind(this, value.propKeys)}/>
           </div>
         );
       }
